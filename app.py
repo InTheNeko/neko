@@ -4,20 +4,21 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    # Создаем список кнопок: (Текст на кнопке, Ссылка)
-    menu_items = [
+    # Создаем список: (Название, Ссылка)
+    # Важно: имя переменной 'my_buttons' должно совпадать с тем, что в HTML!
+    my_buttons = [
         ("Главная", "/"),
         ("Обо мне", "/about"),
         ("Проекты", "/projects"),
         ("Галерея", "/gallery"),
         ("Контакты", "/contact")
     ]
-    return render_template('index.html', menu=menu_items)
+    return render_template('index.html', buttons=my_buttons)
 
-# Создадим один универсальный маршрут для всех остальных страниц
-@app.route('/<page_name>')
-def page(page_name):
-    return f"<h1>Вы перешли на страницу: {page_name}</h1><br><a href='/'>Назад на главную</a>"
+# Добавим обработку для всех кнопок, чтобы не было ошибки 404
+@app.route('/<name>')
+def pages(name):
+    return f"<h1>Страница: {name}</h1><a href='/'>Назад на главную</a>"
 
 if __name__ == '__main__':
     app.run(debug=True)
