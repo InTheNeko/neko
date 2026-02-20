@@ -6,7 +6,7 @@ app = Flask(__name__)
 friends_list = [
     ("Руслан", "ruslan"),
     ("Андрей", "andrey"),
-    ("Тимоха", "timokha"),
+    ("Тимофка", "timokha"),
     ("Лёша", "lesha"),
     ("Ибрагим", "ibragim")
 ]
