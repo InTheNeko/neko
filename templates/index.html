@@ -1,2 +1,17 @@
-<h1>Привет, {{ name }}! 🚀</h1>
-<p>На моих серверных часах сейчас: <strong>{{ time }}</strong></p>
+<div class="menu" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+    {% for title, url in menu %}
+        <a href="{{ url }}" class="btn">{{ title }}</a>
+    {% endfor %}
+</div>
+
+
+.btn { 
+    margin: 5px; 
+    display: inline-block; 
+    background: #3498db; 
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 5px;
+}
+.btn:hover { background: #2ecc71; } /* Кнопка станет зеленой при наведении */
