@@ -36,4 +36,3 @@ def show_page(page_name):
 
 if __name__ == '__main__':
     app.run(debug=True)
-ы
