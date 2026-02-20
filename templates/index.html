@@ -2,48 +2,77 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Мой Flask Сайт</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
     <style>
-        body { 
-            font-family: sans-serif; 
-            text-align: center; 
-            background-color: #f0f2f5; 
-            padding-top: 50px;
+        /* Общие настройки страницы */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .menu-container {
+
+        /* Белая карточка-контейнер */
+        .card {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            display: inline-block;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 320px; /* Фиксированная ширина для аккуратности */
         }
+
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        p { color: #7f8c8d; margin-bottom: 30px; line-height: 1.5; }
+
+        /* Контейнер для кнопок (СТОЛБИК) */
+        .menu-vertical {
+            display: flex;
+            flex-direction: column; /* Кнопки одна под другой */
+            gap: 12px;              /* Расстояние между кнопками */
+        }
+
+        /* Стиль кнопок */
         .btn {
-            display: inline-block;
-            padding: 12px 20px;
-            margin: 8px;
+            display: block;
+            padding: 14px;
             background-color: #3498db;
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: 0.3s;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
         }
+
+        /* Эффект при наведении */
         .btn:hover {
-            background-color: #2ecc71;
-            transform: translateY(-3px);
+            background-color: #2ecc71; /* Зеленый цвет */
+            transform: translateY(-2px); /* Легкий подъем */
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-    <div class="menu-container">
-        <h1>Добро пожаловать!</h1>
-        <p>Выберите нужный раздел:</p>
-        
-        <!-- ЦИКЛ ДЛЯ КНОПОК -->
-        {% for name, link in buttons %}
-            <a href="{{ link }}" class="btn">{{ name }}</a>
-        {% endfor %}
+    <div class="card">
+        <h1>{{ title }}</h1>
+        <p>{{ text }}</p>
+
+        <div class="menu-vertical">
+            <!-- Цикл выводит все 5 кнопок из Python -->
+            {% for name, link in buttons %}
+                <a href="{{ link }}" class="btn">{{ name }}</a>
+            {% endfor %}
+        </div>
     </div>
 
 </body>
