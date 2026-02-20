@@ -2,43 +2,45 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Мой сайт</title>
-
-    <!-- ВОТ ЭТОТ БЛОК STYLE -->
+    <title>Мой Flask Сайт</title>
     <style>
         body { 
             font-family: sans-serif; 
             text-align: center; 
-            background-color: #f4f4f4; 
+            background-color: #f0f2f5; 
+            padding-top: 50px;
         }
-
-        /* Оформление для наших кнопок */
+        .menu-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
         .btn {
             display: inline-block;
-            padding: 12px 24px;
-            margin: 10px;
-            background-color: #3498db; /* Синий цвет */
-            color: white;              /* Белый текст */
-            text-decoration: none;     /* Убираем подчеркивание у ссылки */
-            border-radius: 30px;       /* Закругленные края */
+            padding: 12px 20px;
+            margin: 8px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
             font-weight: bold;
-            transition: 0.3s;          /* Плавность при наведении */
+            transition: 0.3s;
         }
-
-        /* Что будет, если навести на кнопку мышкой */
         .btn:hover {
-            background-color: #2ecc71; /* Станет зеленой */
-            transform: scale(1.1);     /* Немного увеличится */
+            background-color: #2ecc71;
+            transform: translateY(-3px);
         }
     </style>
-    <!-- КОНЕЦ БЛОКА STYLE -->
-
 </head>
 <body>
 
-    <h1>Мой крутой Flask-сайт</h1>
-
-    <div class="menu">
+    <div class="menu-container">
+        <h1>Добро пожаловать!</h1>
+        <p>Выберите нужный раздел:</p>
+        
+        <!-- ЦИКЛ ДЛЯ КНОПОК -->
         {% for name, link in buttons %}
             <a href="{{ link }}" class="btn">{{ name }}</a>
         {% endfor %}
