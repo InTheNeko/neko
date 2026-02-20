@@ -1,29 +1,21 @@
-<style>
-    /* Добавь это в блок <style> */
-    .photo {
-        width: 100%;
-        max-width: 250px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #00ffcc;
-        box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
-    }
-</style>
+<!-- Оставь те же стили в <style>, что были в прошлом сообщении -->
 
 <div class="card">
     <h1>{{ title }}</h1>
 
-    {% if not is_home %}
-        <!-- Если зашли в профиль — показываем фото и описание -->
-        <img src="{{ url_for('static', filename='images/' + photo) }}" class="photo">
-        <p class="desc">{{ description }}</p>
-        <a href="/" class="btn btn-back">← НАЗАД</a>
-    {% else %}
-        <!-- Если на главной — только список кнопок -->
+    {% if is_home %}
         <div class="menu-vertical">
             {% for name, link in buttons %}
                 <a href="/{{ link }}" class="btn">{{ name }}</a>
             {% endfor %}
         </div>
+    {% else %}
+        <!-- ПРОВЕРКА: Если фото есть в словаре, показываем его -->
+        {% if photo %}
+            <img src="{{ url_for('static', filename='images/' + photo) }}" class="photo">
+        {% endif %}
+
+        <p class="desc">{{ description }}</p>
+        <a href="/" class="btn btn-back">← CANCEL</a>
     {% endif %}
 </div>

@@ -2,7 +2,6 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Список для главной: (Имя, ссылка)
 friends = [
     ("Руслан", "ruslan"),
     ("Андрей", "andrey"),
@@ -13,20 +12,20 @@ friends = [
 
 @app.route('/')
 def home():
-    return render_template('index.html', buttons=friends, title="Выбор профиля", is_home=True)
+    return render_template('index.html', buttons=friends, title="SYSTEM SELECT", is_home=True)
 
 @app.route('/<page_name>')
 def show_page(page_name):
-    # Словарь: ключ -> (Имя, Описание, Файл_картинки)
+    # Данные: ключ -> (Имя, Описание, Файл_фото или None)
     data = {
         "ruslan": ("Руслан", "Топ игрок, всегда на связи.", "ruslan.jpg"),
-        "andrey": ("Андрей", "Мастер стратегий.", "andrey.jpg"),
-        "timokha": ("Тимоха", "Главный по юмору.", "timokha.jpg"),
-        "lesha": ("Лёша", "Никогда не подводит.", "lesha.jpg"),
-        "ibragim": ("Ибрагим", "Легендарный скилл.", "ibragim.jpg")
+        "andrey": ("Андрей", "Мастер стратегий и тактики.", None), # Без фото
+        "timokha": ("Тимоха", "Главный по юмору в команде.", None), # Без фото
+        "lesha": ("Лёша", "Спокойный и расчетливый игрок.", None), # Без фото
+        "ibragim": ("Ибрагим", "Легендарный скилл и мощь.", "ibragim.jpg")
     }
     
-    res = data.get(page_name, ("Ошибка", "Не найдено", "default.jpg"))
+    res = data.get(page_name, ("Ошибка", "Профиль не найден", None))
     
     return render_template('index.html', 
                            title=res[0], 
