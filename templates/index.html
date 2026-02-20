@@ -2,76 +2,70 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <style>
-        /* Общие настройки страницы */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #eef2f3;
             margin: 0;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start; /* Всё к левому краю */
             align-items: center;
             min-height: 100vh;
+            padding-left: 10%; /* Отступ от края экрана */
         }
 
-        /* Белая карточка-контейнер */
         .card {
             background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 320px; /* Фиксированная ширина для аккуратности */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 280px;
+            text-align: left;
         }
 
-        h1 { color: #2c3e50; margin-bottom: 10px; }
-        p { color: #7f8c8d; margin-bottom: 30px; line-height: 1.5; }
+        h1 { color: #333; margin-bottom: 25px; font-size: 24px; }
 
-        /* Контейнер для кнопок (СТОЛБИК) */
         .menu-vertical {
             display: flex;
-            flex-direction: column; /* Кнопки одна под другой */
-            gap: 12px;              /* Расстояние между кнопками */
+            flex-direction: column;
+            gap: 12px;
         }
 
-        /* Стиль кнопок */
         .btn {
             display: block;
             padding: 14px;
-            background-color: #3498db;
+            background-color: #4a90e2;
             color: white;
             text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+            transition: 0.2s;
         }
 
-        /* Эффект при наведении */
-        .btn:hover {
-            background-color: #2ecc71; /* Зеленый цвет */
-            transform: translateY(-2px); /* Легкий подъем */
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
-        }
+        .btn:hover { background-color: #357abd; transform: translateX(5px); }
 
-        .btn:active {
-            transform: translateY(0);
-        }
+        /* Стиль для кнопки Назад */
+        .btn-back { background-color: #6c757d; margin-top: 10px; }
+        .btn-back:hover { background-color: #5a6268; }
     </style>
 </head>
 <body>
 
     <div class="card">
         <h1>{{ title }}</h1>
-        <p>{{ text }}</p>
 
         <div class="menu-vertical">
-            <!-- Цикл выводит все 5 кнопок из Python -->
-            {% for name, link in buttons %}
-                <a href="{{ link }}" class="btn">{{ name }}</a>
-            {% endfor %}
+            {% if is_home %}
+                <!-- Если мы на главной — выводим список игроков -->
+                {% for name, link in buttons %}
+                    <a href="/{{ link }}" class="btn">{{ name }}</a>
+                {% endfor %}
+            {% else %}
+                <!-- Если зашли в игрока — только кнопка Назад -->
+                <a href="/" class="btn btn-back">← Назад</a>
+            {% endif %}
         </div>
     </div>
 
