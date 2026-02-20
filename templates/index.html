@@ -1,112 +1,29 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-    <style>
-        /* Глубокий черный фон с небольшим свечением */
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: #0a0a0b; /* Ультра-черный */
-            color: #e0e0e0;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            min-height: 100vh;
-            padding-left: 10%;
-        }
+<style>
+    /* Добавь это в блок <style> */
+    .photo {
+        width: 100%;
+        max-width: 250px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #00ffcc;
+        box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
+    }
+</style>
 
-        /* Карточка с эффектом стекла на темном фоне */
-        .card {
-            background: rgba(20, 20, 22, 0.8);
-            border: 1px solid #333;
-            padding: 40px;
-            border-radius: 12px;
-            width: 350px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            text-align: left;
-        }
+<div class="card">
+    <h1>{{ title }}</h1>
 
-        h1 {
-            font-size: 28px;
-            color: #ffffff;
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Описание персонажа */
-        .desc {
-            font-size: 16px;
-            color: #888;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .menu-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        /* Темные футуристичные кнопки */
-        .btn {
-            display: block;
-            padding: 15px;
-            background: #1a1a1c;
-            color: #00ffcc; /* Неоновый акцент */
-            text-decoration: none;
-            border: 1px solid #333;
-            border-radius: 6px;
-            font-weight: bold;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            border-color: #00ffcc;
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
-            transform: translateX(8px);
-            color: #ffffff;
-        }
-
-        /* Кнопка отмены/назад */
-        .btn-back {
-            border-color: #444;
-            color: #666;
-            margin-top: 10px;
-        }
-
-        .btn-back:hover {
-            border-color: #ff4444;
-            color: #ff4444;
-            box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);
-        }
-    </style>
-</head>
-<body>
-
-    <div class="card">
-        <h1>{{ title }}</h1>
-
-        {% if not is_home %}
-            <p class="desc">{{ description }}</p>
-        {% endif %}
-
+    {% if not is_home %}
+        <!-- Если зашли в профиль — показываем фото и описание -->
+        <img src="{{ url_for('static', filename='images/' + photo) }}" class="photo">
+        <p class="desc">{{ description }}</p>
+        <a href="/" class="btn btn-back">← НАЗАД</a>
+    {% else %}
+        <!-- Если на главной — только список кнопок -->
         <div class="menu-vertical">
-            {% if is_home %}
-                <!-- Список друзей -->
-                {% for name, link in buttons %}
-                    <a href="/{{ link }}" class="btn">{{ name }}</a>
-                {% endfor %}
-            {% else %}
-                <!-- Только кнопка Назад -->
-                <a href="/" class="btn btn-back">← ВЕРНУТЬСЯ</a>
-            {% endif %}
+            {% for name, link in buttons %}
+                <a href="/{{ link }}" class="btn">{{ name }}</a>
+            {% endfor %}
         </div>
-    </div>
-
-</body>
-</html>
+    {% endif %}
+</div>
