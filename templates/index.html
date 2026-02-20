@@ -2,116 +2,67 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <style>
-        /* Футуристичный фон с градиентом */
         body {
             margin: 0;
-            padding: 0;
-            font-family: 'Orbitron', sans-serif; /* Похож на игровой шрифт */
-            background: radial-gradient(circle at top left, #1a1a2e, #16213e, #0f3460);
-            color: #00fff2; /* Неоновый голубой */
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle, #1a1a2e, #16213e);
+            color: #00fff2;
             display: flex;
             justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
-            padding-left: 8%;
-            overflow: hidden;
+            padding-left: 10%;
         }
-
-        /* Стеклянная карточка (Glassmorphism) */
         .card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 255, 242, 0.3);
-            padding: 40px;
+            border: 1px solid #00fff2;
+            padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 0 30px rgba(0, 255, 242, 0.1);
-            width: 320px;
+            width: 300px;
             text-align: center;
-            animation: fadeIn 0.8s ease-out;
+            box-shadow: 0 0 20px rgba(0, 255, 242, 0.2);
         }
-
-        h1 {
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px #00fff2;
-            margin-bottom: 30px;
-        }
-
-        .menu-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        /* Кнопки с неоновой обводкой */
+        .menu-vertical { display: flex; flex-direction: column; gap: 10px; }
         .btn {
             display: block;
-            padding: 15px;
-            background: transparent;
+            padding: 12px;
+            border: 1px solid #00fff2;
             color: #00fff2;
             text-decoration: none;
-            border: 1px solid #00fff2;
             border-radius: 5px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            transition: 0.3s;
             text-transform: uppercase;
         }
-
-        .btn:hover {
-            background: rgba(0, 255, 242, 0.2);
-            box-shadow: 0 0 20px #00fff2, inset 0 0 10px #00fff2;
-            transform: translateX(10px);
-        }
-
-        /* Аватарка с неоновым кольцом */
+        .btn:hover { background: rgba(0, 255, 242, 0.2); box-shadow: 0 0 15px #00fff2; }
         .avatar {
-            width: 220px;
-            height: 220px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border: 3px solid #00fff2;
-            box-shadow: 0 0 25px #00fff2;
-            filter: brightness(1.1) contrast(1.1);
+            box-shadow: 0 0 20px #00fff2;
         }
-
-        .btn-back {
-            border-color: #ff0055; /* Розовый неон для выхода */
-            color: #ff0055;
-        }
-
-        .btn-back:hover {
-            background: rgba(255, 0, 85, 0.2);
-            box-shadow: 0 0 20px #ff0055, inset 0 0 10px #ff0055;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .btn-back { border-color: #ff0055; color: #ff0055; }
     </style>
 </head>
 <body>
-
     <div class="card">
         <h1>{{ title }}</h1>
-
         <div class="menu-vertical">
             {% if is_home %}
                 {% for name, link in buttons %}
                     <a href="/{{ link }}" class="btn">{{ name }}</a>
                 {% endfor %}
             {% else %}
+                <!-- ГЛАВНОЕ: путь к фото -->
                 <img src="{{ url_for('static', filename='images/' + photo) }}" class="avatar">
-                <a href="/" class="btn btn-back">← CANCEL</a>
+                <a href="/" class="btn btn-back">Назад</a>
             {% endif %}
         </div>
     </div>
-
 </body>
 </html>
