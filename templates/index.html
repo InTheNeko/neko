@@ -1,17 +1,48 @@
-<div class="menu" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-    {% for title, url in menu %}
-        <a href="{{ url }}" class="btn">{{ title }}</a>
-    {% endfor %}
-</div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой сайт</title>
 
+    <!-- ВОТ ЭТОТ БЛОК STYLE -->
+    <style>
+        body { 
+            font-family: sans-serif; 
+            text-align: center; 
+            background-color: #f4f4f4; 
+        }
 
-.btn { 
-    margin: 5px; 
-    display: inline-block; 
-    background: #3498db; 
-    color: white; 
-    padding: 10px 20px; 
-    text-decoration: none; 
-    border-radius: 5px;
-}
-.btn:hover { background: #2ecc71; } /* Кнопка станет зеленой при наведении */
+        /* Оформление для наших кнопок */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            background-color: #3498db; /* Синий цвет */
+            color: white;              /* Белый текст */
+            text-decoration: none;     /* Убираем подчеркивание у ссылки */
+            border-radius: 30px;       /* Закругленные края */
+            font-weight: bold;
+            transition: 0.3s;          /* Плавность при наведении */
+        }
+
+        /* Что будет, если навести на кнопку мышкой */
+        .btn:hover {
+            background-color: #2ecc71; /* Станет зеленой */
+            transform: scale(1.1);     /* Немного увеличится */
+        }
+    </style>
+    <!-- КОНЕЦ БЛОКА STYLE -->
+
+</head>
+<body>
+
+    <h1>Мой крутой Flask-сайт</h1>
+
+    <div class="menu">
+        {% for name, link in buttons %}
+            <a href="{{ link }}" class="btn">{{ name }}</a>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
