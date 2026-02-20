@@ -1,22 +1,2 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Мой супер сайт</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
-        h1 { color: #2c3e50; }
-        p { color: #7f8c8d; }
-        .btn { display: inline-block; padding: 10px 25px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px; transition: 0.3s; }
-        .btn:hover { background-color: #2980b9; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Привет! Это мой Flask-сайт 🚀</h1>
-        <p>Теперь он выглядит как настоящее веб-приложение.</p>
-        <a href="#" class="btn" onclick="alert('Кнопка работает!')">Нажми на меня</a>
-    </div>
-</body>
-</html>
+<h1>Привет, {{ name }}! 🚀</h1>
+<p>На моих серверных часах сейчас: <strong>{{ time }}</strong></p>
