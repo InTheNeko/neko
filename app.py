@@ -14,7 +14,7 @@ friends_list = [
 
 @app.route('/')
 def home():
-    return render_template('index.html', buttons=friends_list, title="Выбор профиля", is_home=True)
+    return render_template('index.html', buttons=friends_list, title="Drakonchik v3", is_home=True)
 
 @app.route('/<page_name>')
 def show_page(page_name):
