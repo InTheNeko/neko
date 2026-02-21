@@ -28,21 +28,21 @@ def show_page(page_name):
                    [("Steam", "https://steamcommunity.com/profiles/76561199198583765/")],
                    "Заметка: да и так пойдёт"),
         
-        "andrey": ("Андрей", "постояно ест", "andrey.jpg", 
+        "andrey": ("Андрей", "Постояно ест", "andrey.jpg", 
                    [("Steam", "https://steamcommunity.com/profiles/76561198337510525/"), ("я гей", "https://youareanidiot.cc")],
                    "Заметка: Если не отвечает, значит ушел на кухню."),
         
-        "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
+        "timokha": ("Тимофка", "Жаль что он с нами.", "timokha.jpg", 
                     [("Steam", "https://steamcommunity.com/profiles/76561199054205841/"), ],
                     "Заметка: Опасен в кооперативных играх."),
         
-        "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", 
+        "lesha": ("Лёша", "Гном всегда гном.", "lesha.jpg", 
                   [("Steam", "https://steamcommunity.com/profiles/76561199096404881/"), ],
                   "Заметка: Маленький рост компенсирует ни чем "),
         
-        "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
+        "ibragim": ("Ибрагим", "Почти скоро 12.", "ibragim.jpg", 
                     [("Steam", "https://steamcommunity.com/profiles/76561199556449044/"), ],
-                    "Заметка: аааа танки")
+                    "Заметка: Аааа танки")
     }
     
     data = friends_info.get(page_name)
