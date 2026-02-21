@@ -9,7 +9,7 @@ friends_list = [
     ("Тимофка", "timokha"),
     ("Лёша", "lesha"),
     ("Ибрагим", "ibragim")
-    ("Тима", "kot")
+    
 ]
 
 @app.route('/')
@@ -20,9 +20,6 @@ def home():
 def show_page(page_name):
     # Структура: "ключ": (Имя, Описание, Фото, [Список ссылок])
     friends_info = {
-         "kot": ("кот", "лучший", "ruslan.jpg", 
-                   [("Steam", "https://steamcommunity.com/profiles/76561199198583765/"),]),
-         
         "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
                    [("Steam", "https://steamcommunity.com/profiles/76561199198583765/"),]),
         
