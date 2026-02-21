@@ -20,23 +20,29 @@ def home():
 def show_page(page_name):
     # Структура: "ключ": (Имя, Описание, Фото, [Ссылки], Заметка)
     friends_info = {
-        "cat": ("Кот", "Самый главный, у него лапки и власть.", "cat.jpg", 
-                [("Steam", "https://steamcommunity.com/profiles/76561199122830516/"), ("Валерьянка", "#")]),
+        "cat": ("Кот", "Самый главный, у него лапки.", "cat.jpg", 
+                [("YouTube", "https://youtube.com")], 
+                "Заметка: Главный администратор этого списка. Любит сметану."),
         
         "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
-                   [("Steam", "https://steamcommunity.com")]),
+                   [("Steam", "https://steamcommunity.com")],
+                   "Заметка: Почти всегда в сети, но редко заходит в дискорд."),
         
         "andrey": ("Андрей", "постояно ест", "andrey.jpg", 
-                   [("Steam", "https://steamcommunity.com"), ("я гей", "https://youareanidiot.cc")]),
+                   [("Steam", "https://steamcommunity.com"), ("я гей", "https://youareanidiot.cc")],
+                   "Заметка: Если не отвечает, значит ушел на кухню."),
         
         "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
-                    [("Steam", "https://steamcommunity.com"), ]),
+                    [("Steam", "https://steamcommunity.com"), ("YouTube", "https://youtube.com")],
+                    "Заметка: Опасен в кооперативных играх."),
         
         "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", 
-                  [("Steam", "https://steamcommunity.com"), ]),
+                  [("Steam", "https://steamcommunity.com"), ("YouTube", "https://youtube.com")],
+                  "Заметка: Маленький рост компенсирует громким микрофоном."),
         
         "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
-                    [("Steam", "https://steamcommunity.com"), ])
+                    [("Steam", "https://steamcommunity.com"), ("Discord", "https://discord.com")],
+                    "Заметка: Самый молодой игрок в составе.")
     }
     
     data = friends_info.get(page_name)
