@@ -24,7 +24,6 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             text-align: left;
         }
-        /* СТИЛЬ ДЛЯ ФОТО */
         .player-photo {
             width: 100%;
             border-radius: 8px;
@@ -33,7 +32,32 @@
             display: block;
         }
         h1 { font-size: 28px; color: #ffffff; margin-bottom: 10px; }
-        .desc { font-size: 16px; color: #888; line-height: 1.6; margin-bottom: 30px; }
+        .desc { font-size: 16px; color: #888; line-height: 1.6; margin-bottom: 20px; }
+        
+        /* СТИЛИ ДЛЯ ССЫЛОК */
+        .links-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .link-tag {
+            background: #1a1a1c;
+            color: #00ffcc;
+            padding: 6px 12px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .link-tag:hover {
+            background: #00ffcc;
+            color: #000;
+            transform: translateY(-2px);
+        }
+
         .menu-vertical { display: flex; flex-direction: column; gap: 12px; }
         .btn {
             display: block; padding: 15px; background: #1a1a1c; color: #00ffcc;
@@ -51,11 +75,20 @@
         <h1>{{ title }}</h1>
 
         {% if not is_home %}
-            <!-- КАРТИНКА ПОЯВИТСЯ ТУТ, ЕСЛИ ОНА ЕСТЬ -->
             {% if photo %}
                 <img src="{{ url_for('static', filename='images/' + photo) }}" class="player-photo">
             {% endif %}
+            
             <p class="desc">{{ description }}</p>
+
+            <!-- ОТОБРАЖЕНИЕ ССЫЛОК -->
+            {% if links %}
+            <div class="links-container">
+                {% for label, url in links %}
+                    <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
         {% endif %}
 
         <div class="menu-vertical">

@@ -2,6 +2,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+# Список для главной страницы
 friends_list = [
     ("Руслан", "ruslan"),
     ("Андрей", "andrey"),
@@ -16,22 +17,34 @@ def home():
 
 @app.route('/<page_name>')
 def show_page(page_name):
-    # Словарь: "ключ": ("Имя", "Описание", "файл_картинки")
+    # Структура: "ключ": (Имя, Описание, Фото, [Список ссылок])
     friends_info = {
-        "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg"),
-        "andrey": ("Андрей", "постояно ест", "andrey.jpg"), # Без фото
-        "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg"),
-        "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg"),
-        "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg")
+        "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
+                   [("Steam", "https://steamcommunity.com"), ("VK", "https://vk.com")]),
+        
+        "andrey": ("Андрей", "постояно ест", "andrey.jpg", 
+                   [("Telegram", "https://t.me")]),
+        
+        "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
+                    [("YouTube", "https://youtube.com")]),
+        
+        "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", []),
+        
+        "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
+                    [("Discord", "https://discord.com")])
     }
     
-    data = friends_info.get(page_name, ("Ошибка", "Профиль не найден.", None))
+    data = friends_info.get(page_name)
     
-    return render_template('index.html', 
-                           title=data[0], 
-                           description=data[1], 
-                           photo=data[2], # Передаем фото
-                           is_home=False)
+    if data:
+        return render_template('index.html', 
+                               title=data[0],        # Имя (индекс 0)
+                               description=data[1],  # Описание (индекс 1)
+                               photo=data[2],        # Фото (индекс 2)
+                               links=data[3],        # Список ссылок (индекс 3)
+                               is_home=False)
+    
+    return "Профиль не найден", 404
 
 if __name__ == '__main__':
     app.run(debug=True)
