@@ -29,10 +29,11 @@ def show_page(page_name):
         "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
                     [("Steam", "https://steamcommunity.com/profiles/76561199054205841/"),("YouTube", "https://youtube.com")]),
         
-        "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", [
-            (("Steam", "https://steamcommunity.com/profiles/76561199096404881/"),"YouTube", "https://youtube.com")
-        ]
-                  ),
+      "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", [
+    ("Steam", "https://steamcommunity.com/profiles/76561199096404881/"),
+    ("YouTube", "https://youtube.com")
+]),
+
         
         
         "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
