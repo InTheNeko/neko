@@ -33,15 +33,15 @@ def show_page(page_name):
                    "Заметка: Если не отвечает, значит ушел на кухню."),
         
         "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
-                    [("Steam", "https://steamcommunity.com"), ("YouTube", "https://youtube.com")],
+                    [("Steam", "https://steamcommunity.com"), ],
                     "Заметка: Опасен в кооперативных играх."),
         
         "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", 
-                  [("Steam", "https://steamcommunity.com"), ("YouTube", "https://youtube.com")],
+                  [("Steam", "https://steamcommunity.com"), ],
                   "Заметка: Маленький рост компенсирует ни чем "),
         
         "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
-                    [("Steam", "https://steamcommunity.com"), ("Discord", "https://discord.com")],
+                    [("Steam", "https://steamcommunity.com"), ],
                     "Заметка: аааа танки")
     }
     
