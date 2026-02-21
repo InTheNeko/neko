@@ -22,11 +22,11 @@ def show_page(page_name):
     friends_info = {
         "cat": ("Кот", "Самый главный, у него лапки.", "cat.jpg", 
                 [("YouTube", "https://youtube.com")], 
-                "Заметка: Главный администратор этого списка. Любит сметану."),
+                "Заметка: Главный администратор этого списка. Любит спать."),
         
         "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
                    [("Steam", "https://steamcommunity.com")],
-                   "Заметка: Почти всегда в сети, но редко заходит в дискорд."),
+                   "Заметка: да и так пойдёт"),
         
         "andrey": ("Андрей", "постояно ест", "andrey.jpg", 
                    [("Steam", "https://steamcommunity.com"), ("я гей", "https://youareanidiot.cc")],
@@ -38,11 +38,11 @@ def show_page(page_name):
         
         "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", 
                   [("Steam", "https://steamcommunity.com"), ("YouTube", "https://youtube.com")],
-                  "Заметка: Маленький рост компенсирует громким микрофоном."),
+                  "Заметка: Маленький рост компенсирует ни чем "),
         
         "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
                     [("Steam", "https://steamcommunity.com"), ("Discord", "https://discord.com")],
-                    "Заметка: Самый молодой игрок в составе.")
+                    "Заметка: аааа танки")
     }
     
     data = friends_info.get(page_name)
