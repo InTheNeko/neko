@@ -2,7 +2,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Список для главной страницы (Кот на первом месте)
+# Список для главной страницы
 friends_list = [
     ("Кот", "cat"),
     ("Руслан", "ruslan"),
@@ -18,35 +18,42 @@ def home():
 
 @app.route('/<page_name>')
 def show_page(page_name):
-    # Структура: "ключ": (Имя, Описание, Фото, [Список ссылок])
+    # Структура: "ключ": (Имя, Описание, Фото, [Ссылки], Заметка)
     friends_info = {
-        "cat": ("Кот", "Самый главный, у него лапки и власть.", "cat.jpg", 
-                [("Steam", "https://steamcommunity.com/profiles/76561199122830516/"), ("Валерьянка", "#")]),
+        "cat": ("Кот", "Самый главный.", "cat.jpg", 
+                [("YouTube", "https://youtube.com")], 
+                "Заметка: Купить корм, поспать 20 часов, захватить мир."),
         
-        "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
-                   [("Steam", "https://steamcommunity.com")]),
+        "ruslan": ("Руслан", "Ну так ну сяк...", "ruslan.jpg", 
+                   [("Steam", "#")], 
+                   "Заметка: Почти всегда в сети, но редко отвечает."),
         
-        "andrey": ("Андрей", "постояно ест", "andrey.jpg", 
-                   [("Steam", "https://steamcommunity.com"), ("я гей", "https://youareanidiot.cc")]),
+        "andrey": ("Андрей", "Постоянно ест", "andrey.jpg", 
+                   [("Steam", "#")], 
+                   "Заметка: Если не отвечает, значит ушел за добавкой."),
         
-        "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
-                    [("Steam", "https://steamcommunity.com"), ]),
+        "timokha": ("Тимофка", "Жаль что он с нами.", "timokha.jpg", 
+                    [("Steam", "#")], 
+                    "Заметка: С ним опасно играть в кооперативе."),
         
-        "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", 
-                  [("Steam", "https://steamcommunity.com"), ]),
+        "lesha": ("Лёша", "Гном всегда гном.", "lesha.jpg", 
+                  [("Steam", "#")], 
+                  "Заметка: Маленький рост — большая ярость."),
         
-        "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
-                    [("Steam", "https://steamcommunity.com"), ])
+        "ibragim": ("Ибрагим", "Почти скоро 12.", "ibragim.jpg", 
+                    [("Steam", "#")], 
+                    "Заметка: Самый молодой в команде.")
     }
     
     data = friends_info.get(page_name)
     
     if data:
         return render_template('index.html', 
-                               title=data[0],        
-                               description=data[1],  
-                               photo=data[2],        
-                               links=data[3],        
+                               title=data[0],
+                               description=data[1],
+                               photo=data[2],
+                               links=data[3],
+                               note=data[4], # Передаем заметку
                                is_home=False)
     
     return "Профиль не найден", 404
