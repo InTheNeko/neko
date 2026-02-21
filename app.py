@@ -30,13 +30,13 @@ def show_page(page_name):
                    [("Steam", "https://steamcommunity.com"), ("я гей", "https://youareanidiot.cc")]),
         
         "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
-                    [("Steam", "https://steamcommunity.com"), ("YouTube", "https://youtube.com")]),
+                    [("Steam", "https://steamcommunity.com"), ]),
         
         "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", 
-                  [("Steam", "https://steamcommunity.com"), ("YouTube", "https://youtube.com")]),
+                  [("Steam", "https://steamcommunity.com"), ]),
         
         "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
-                    [("Steam", "https://steamcommunity.com"), ("Discord", "https://discord.com")])
+                    [("Steam", "https://steamcommunity.com"), ])
     }
     
     data = friends_info.get(page_name)
