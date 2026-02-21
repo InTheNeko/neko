@@ -9,6 +9,7 @@ friends_list = [
     ("Тимофка", "timokha"),
     ("Лёша", "lesha"),
     ("Ибрагим", "ibragim")
+    ("Тима", "kot")
 ]
 
 @app.route('/')
@@ -19,23 +20,26 @@ def home():
 def show_page(page_name):
     # Структура: "ключ": (Имя, Описание, Фото, [Список ссылок])
     friends_info = {
+         "kot": ("кот", "лучший", "ruslan.jpg", 
+                   [("Steam", "https://steamcommunity.com/profiles/76561199198583765/"),]),
+         
         "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
                    [("Steam", "https://steamcommunity.com/profiles/76561199198583765/"),]),
         
         "andrey": ("Андрей", "постояно ест", "andrey.jpg", 
-                   [("я гей", "https://youareanidiot.cc/")]),
+                   [("Steam", "https://steamcommunity.com/profiles/76561198337510525/"),("я гей", "https://youareanidiot.cc/")]),
         
         "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
-                    [("YouTube", "https://youtube.com")]),
+                    [("Steam", "https://steamcommunity.com/profiles/76561199054205841/"),("YouTube", "https://youtube.com")]),
         
         "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", [
-            ("YouTube", "https://youtube.com")
+            (("Steam", "https://steamcommunity.com/profiles/76561199096404881/"),"YouTube", "https://youtube.com")
         ]
                   ),
         
         
         "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
-                    [("Discord", "https://discord.com")])
+                    [("Steam", "https://steamcommunity.com/profiles/76561199556449044/"),("Discord", "https://discord.com")])
     }
     
     data = friends_info.get(page_name)
