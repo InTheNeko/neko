@@ -2,7 +2,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Список для главной страницы (Кот на первом месте)
+# Список для главной страницы (Кот первый)
 friends_list = [
     ("Кот", "cat"),
     ("Руслан", "ruslan"),
@@ -18,7 +18,7 @@ def home():
 
 @app.route('/<page_name>')
 def show_page(page_name):
-    # Структура: "ключ": (Имя, Описание, Фото, [Список ссылок])
+    # Структура: "ключ": (Имя, Описание, Фото, [Ссылки], Заметка)
     friends_info = {
         "cat": ("Кот", "Самый главный, у него лапки и власть.", "cat.jpg", 
                 [("Steam", "https://steamcommunity.com/profiles/76561199122830516/"), ("Валерьянка", "#")]),
@@ -30,7 +30,7 @@ def show_page(page_name):
                    [("Steam", "https://steamcommunity.com"), ("я гей", "https://youareanidiot.cc")]),
         
         "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
-                    [("Steam", "https://steamcommunity.com"), ("YouTube", "https://youtube.com")]),
+                    [("Steam", "https://steamcommunity.com"), ]),
         
         "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", 
                   [("Steam", "https://steamcommunity.com"), ]),
@@ -47,6 +47,7 @@ def show_page(page_name):
                                description=data[1],  
                                photo=data[2],        
                                links=data[3],        
+                               note=data[4], # Заметка
                                is_home=False)
     
     return "Профиль не найден", 404

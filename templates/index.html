@@ -5,101 +5,64 @@
     <title>{{ title }}</title>
     <style>
         body {
-            margin: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: #0a0a0b;
-            color: #e0e0e0;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            min-height: 100vh;
-            padding-left: 10%;
+            margin: 0; font-family: 'Segoe UI', sans-serif;
+            background-color: #0a0a0b; color: #e0e0e0;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
-        .card {ы
-            background: rgba(20, 20, 22, 0.8);
-            border: 1px solid #333;
-            padding: 40px;
-            border-radius: 12px;
-            width: 350px;
+        .main-container { display: flex; gap: 40px; align-items: flex-start; }
+        .card {
+            background: rgba(20, 20, 22, 0.9); border: 1px solid #333;
+            padding: 40px; border-radius: 12px; width: 350px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            text-align: left;
         }
-        .player-photo {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #00ffcc;
-            display: block;
+        .notes-box {
+            background: rgba(255, 255, 255, 0.03); border-left: 4px solid #00ffcc;
+            padding: 20px; border-radius: 8px; width: 250px;
+            color: #aaa; font-style: italic; animation: fadeIn 0.8s ease;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .player-photo { width: 100%; border-radius: 8px; margin-bottom: 20px; border: 1px solid #00ffcc; }
         h1 { font-size: 28px; color: #ffffff; margin-bottom: 10px; }
         .desc { font-size: 16px; color: #888; line-height: 1.6; margin-bottom: 20px; }
-        
-        /* СТИЛИ ДЛЯ ССЫЛОК */
-        .links-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-        .link-tag {
-            background: #1a1a1c;
-            color: #00ffcc;
-            padding: 6px 12px;
-            border: 1px solid #333;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .link-tag:hover {
-            background: #00ffcc;
-            color: #000;
-            transform: translateY(-2px);
-        }
-
+        .links-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+        .link-tag { background: #1a1a1c; color: #00ffcc; padding: 6px 12px; border: 1px solid #333; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold; transition: 0.3s; }
+        .link-tag:hover { background: #00ffcc; color: #000; }
         .menu-vertical { display: flex; flex-direction: column; gap: 12px; }
-        .btn {
-            display: block; padding: 15px; background: #1a1a1c; color: #00ffcc;
-            text-decoration: none; border: 1px solid #333; border-radius: 6px;
-            font-weight: bold; text-align: center; text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-        .btn:hover { border-color: #00ffcc; transform: translateX(8px); color: #ffffff; }
+        .btn { display: block; padding: 15px; background: #1a1a1c; color: #00ffcc; text-decoration: none; border: 1px solid #333; border-radius: 6px; font-weight: bold; text-align: center; transition: 0.3s; }
+        .btn:hover { border-color: #00ffcc; transform: translateX(8px); }
         .btn-back { border-color: #444; color: #666; margin-top: 10px; }
-        .btn-back:hover { border-color: #ff4444; color: #ff4444; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>{{ title }}</h1>
-
-        {% if not is_home %}
-            {% if photo %}
+    <div class="main-container">
+        <div class="card">
+            <h1>{{ title }}</h1>
+            {% if not is_home %}
                 <img src="{{ url_for('static', filename='images/' + photo) }}" class="player-photo">
+                <p class="desc">{{ description }}</p>
+                <div class="links-container">
+                    {% for label, url in links %}
+                        <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
+                    {% endfor %}
+                </div>
             {% endif %}
-            
-            <p class="desc">{{ description }}</p>
-
-            <!-- ОТОБРАЖЕНИЕ ССЫЛОК -->
-            {% if links %}
-            <div class="links-container">
-                {% for label, url in links %}
-                    <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
-                {% endfor %}
+            <div class="menu-vertical">
+                {% if is_home %}
+                    {% for name, link in buttons %}
+                        <a href="/{{ link }}" class="btn">{{ name }}</a>
+                    {% endfor %}
+                {% else %}
+                    <a href="/" class="btn btn-back">← ВЕРНУТЬСЯ</a>
+                {% endif %}
             </div>
-            {% endif %}
-        {% endif %}
-
-        <div class="menu-vertical">
-            {% if is_home %}
-                {% for name, link in buttons %}
-                    <a href="/{{ link }}" class="btn">{{ name }}</a>
-                {% endfor %}
-            {% else %}
-                <a href="/" class="btn btn-back">← ВЕРНУТЬСЯ</a>
-            {% endif %}
         </div>
+
+        {% if not is_home and note %}
+        <div class="notes-box">
+            <h3 style="color: #00ffcc; margin-top: 0;">Заметки</h3>
+            <p>{{ note }}</p>
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>
