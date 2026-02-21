@@ -23,12 +23,16 @@ def show_page(page_name):
                    [("Steam", "https://steamcommunity.com/profiles/76561199198583765/"),]),
         
         "andrey": ("Андрей", "постояно ест", "andrey.jpg", 
-                   [("Telegram", "https://t.me")]),
+                   [("я гей", "https://youareanidiot.cc/")]),
         
         "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
                     [("YouTube", "https://youtube.com")]),
         
-        "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", []),
+        "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", [
+            ("YouTube", "https://youtube.com")
+        ]
+                  ),
+        
         
         "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
                     [("Discord", "https://discord.com")])
