@@ -20,7 +20,7 @@ def show_page(page_name):
     # Структура: "ключ": (Имя, Описание, Фото, [Список ссылок])
     friends_info = {
         "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
-                   [("Steam", "https://steamcommunity.com"), ("VK", "https://vk.com")]),
+                   [("Steam", "https://steamcommunity.com/profiles/76561199198583765/"),]),
         
         "andrey": ("Андрей", "постояно ест", "andrey.jpg", 
                    [("Telegram", "https://t.me")]),
