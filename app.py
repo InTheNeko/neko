@@ -21,22 +21,22 @@ def show_page(page_name):
     # Данные: "ключ": (0:Имя, 1:Описание, 2:Фото, 3:[Ссылки], 4:Статус, 5:Игра)
     friends_info = {
         "cat": ("Кот", "Самый главный, у него лапки и власть.", "cat.jpg", 
-                [("Steam", "https://steamcommunity.com"), ("Валерьянка", "#")], "В сети", "Stray"),
+                [("Steam", "https://steamcommunity.com/profiles/76561199122830516/"), ("Валерьянка", "#")]),
         
         "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
-                   [("Steam", "https://steamcommunity.com")], "Спит", "Dota 2"),
+                   [("Steam", "https://steamcommunity.com/profiles/76561199198583765/")]),
         
-        "andrey": ("Андрей", "Постоянно ест, но всё равно тащит.", "andrey.jpg", 
-                   [("Steam", "https://steamcommunity.com"), ("Секрет", "https://youareanidiot.cc")], "В игре", "CS 2"),
+        "andrey": ("Андрей", "постояно ест", "andrey.jpg", 
+                   [("Steam", "https://steamcommunity.com/profiles/76561198337510525/"), ("я гей", "https://youareanidiot.cc")]),
         
-        "timokha": ("Тимофка", "Жаль, что он с нами (но мы любя).", "timokha.jpg", 
-                    [("Steam", "https://steamcommunity.com")], "Offline", "Roblox"),
+        "timokha": ("Тимофка", "жаль что он с нами.", "timokha.jpg", 
+                    [("Steam", "https://steamcommunity.com/profiles/76561199054205841/"), ]),
         
-        "lesha": ("Лёша", "Гном всегда гном. Мал, да удал.", "lesha.jpg", 
-                  [("Steam", "https://steamcommunity.com")], "В сети", "Lethal Company"),
+        "lesha": ("Лёша", "гном всегда гном.", "lesha.jpg", 
+                  [("Steam", "https://steamcommunity.com/profiles/76561199096404881/"), ]),
         
-        "ibragim": ("Ибрагим", "Почти скоро 12. Растёт не по дням.", "ibragim.jpg", 
-                    [("Steam", "https://steamcommunity.com")], "Учит уроки", "Minecraft")
+        "ibragim": ("Ибрагим", "почти скоро 12.", "ibragim.jpg", 
+                    [("Steam", "https://steamcommunity.com/profiles/76561199556449044/"), ])
     }
     
     data = friends_info.get(page_name)
