@@ -21,27 +21,27 @@ def show_page(page_name):
     # Структура: "ключ": (Имя, Описание, Фото, [Ссылки], Заметка)
     friends_info = {
         "cat": ("Кот", "Самый главный, у него лапки.", "cat.jpg", 
-                [("Steam", "https://steamcommunity.com")], 
+                [("Steam", "https://steamcommunity.com/profiles/76561199122830516/") ("Валерьянка", "#")], 
                 "Заметка: Главный администратор этого списка. Любит спать."),
         
         "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
-                   [("Steam", "https://steamcommunity.com")],
+                   [("Steam", "https://steamcommunity.com/profiles/76561199198583765/")],
                    "Заметка: да и так пойдёт"),
         
         "andrey": ("Андрей", "Постояно ест", "andrey.jpg", 
-                   [("Steam", "https://steamcommunity.com"), ("я гей", "https://youareanidiot.cc")],
+                   [("Steam", "https://steamcommunity.com/profiles/76561198337510525/"), ("я гей", "https://youareanidiot.cc")],
                    "Заметка: Если не отвечает, значит ушел на кухню."),
         
         "timokha": ("Тимофка", "Жаль что он с нами.", "timokha.jpg", 
-                    [("Steam", "https://steamcommunity.com")],
+                    [("Steam", "https://steamcommunity.com/profiles/76561199054205841/")],
                     "Заметка: Опасен в кооперативных играх."),
         
         "lesha": ("Лёша", "Гном всегда гном.", "lesha.jpg", 
-                  [("Steam", "https://steamcommunity.com")],
+                  [("Steam", "https://steamcommunity.com/profiles/76561199096404881/")],
                   "Заметка: Маленький рост компенсирует ни чем"),
         
         "ibragim": ("Ибрагим", "Почти скоро 12.", "ibragim.jpg", 
-                    [("Steam", "https://steamcommunity.com")],
+                    [("Steam", "https://steamcommunity.com/profiles/76561199556449044/")],
                     "Заметка: Аааа танки")
     }
     
