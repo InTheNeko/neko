@@ -2,93 +2,217 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: #0a0a0b;
-            color: #e0e0e0;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            min-height: 100vh;
-            padding-left: 10%;
-        }
-        .card {ы
-            background: rgba(20, 20, 22, 0.8);
-            border: 1px solid #333;
-            padding: 40px;
-            border-radius: 12px;
-            width: 350px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            text-align: left;
-        }
-        .player-photo {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #00ffcc;
-            display: block;
-        }
-        h1 { font-size: 28px; color: #ffffff; margin-bottom: 10px; }
-        .desc { font-size: 16px; color: #888; line-height: 1.6; margin-bottom: 20px; }
-        
-        /* СТИЛИ ДЛЯ ССЫЛОК */
-        .links-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-        .link-tag {
-            background: #1a1a1c;
-            color: #00ffcc;
-            padding: 6px 12px;
-            border: 1px solid #333;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .link-tag:hover {
-            background: #00ffcc;
-            color: #000;
-            transform: translateY(-2px);
+        :root {
+            --primary: #00ffcc;
+            --accent: #ff00ff;
+            --bg-dark: #050505;
         }
 
-        .menu-vertical { display: flex; flex-direction: column; gap: 12px; }
-        .btn {
-            display: block; padding: 15px; background: #1a1a1c; color: #00ffcc;
-            text-decoration: none; border: 1px solid #333; border-radius: 6px;
-            font-weight: bold; text-align: center; text-transform: uppercase;
-            transition: all 0.3s ease;
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            perspective: 1200px;
         }
-        .btn:hover { border-color: #00ffcc; transform: translateX(8px); color: #ffffff; }
-        .btn-back { border-color: #444; color: #666; margin-top: 10px; }
-        .btn-back:hover { border-color: #ff4444; color: #ff4444; }
+
+        /* Фоновый холст для частиц */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Эффект сканирующей линии */
+        .scanline {
+            width: 100%;
+            height: 10px;
+            background: rgba(0, 255, 204, 0.1);
+            position: fixed;
+            top: -20px;
+            left: 0;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 0 20px var(--primary);
+            animation: scan 6s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: -20px; }
+            100% { top: 100%; }
+        }
+
+        /* Стеклянная карточка */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px 40px;
+            border-radius: 30px;
+            width: 380px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            animation: cardAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: scale(0.8) translateZ(-100px); }
+            to { opacity: 1; transform: scale(1) translateZ(0); }
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            color: #fff;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        /* Секретный глитч при наведении на имя */
+        h1:hover {
+            text-shadow: 3px 0 var(--accent), -3px 0 var(--primary);
+            transform: scale(1.05);
+        }
+
+        .player-photo {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.4);
+            transition: 0.5s;
+        }
+
+        .player-photo:hover {
+            transform: rotate(5deg) scale(1.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 30px var(--accent);
+        }
+
+        .desc {
+            color: #aaa;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: block;
+            padding: 16px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            border-radius: 15px;
+            font-weight: 800;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: rgba(0, 255, 204, 0.15);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .btn-back {
+            border-color: #ff4444;
+            color: #ff4444;
+            margin-top: 25px;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 68, 68, 0.1);
+            border-color: #ff4444;
+        }
+
+        /* Ссылки-теги */
+        .link-tag {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 11px;
+            border: 1px solid var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin: 5px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .link-tag:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        /* Системная информация по углам */
+        .sys-ui {
+            position: fixed;
+            font-family: monospace;
+            color: var(--primary);
+            font-size: 10px;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .top-left { top: 20px; left: 20px; }
+        .bottom-right { bottom: 20px; right: 20px; text-align: right; }
+
     </style>
 </head>
 <body>
-    <div class="card">
+
+    <canvas id="bg-canvas"></canvas>
+    <div class="scanline"></div>
+
+    <!-- Декоративный UI -->
+    <div class="sys-ui top-left">
+        PROTOCOL: STEAM_OS v4.0<br>
+        STATUS: ACTIVE<br>
+        ENCRYPTION: AES-256
+    </div>
+    <div class="sys-ui bottom-right">
+        LOCATION: SECTOR_7<br>
+        NODE_ID: {{ node_id if node_id else '8821' }}<br>
+        TIME: <span id="clock">00:00:00</span>
+    </div>
+
+    <div class="card" id="main-card">
         <h1>{{ title }}</h1>
 
         {% if not is_home %}
             {% if photo %}
                 <img src="{{ url_for('static', filename='images/' + photo) }}" class="player-photo">
             {% endif %}
-            
             <p class="desc">{{ description }}</p>
-
-            <!-- ОТОБРАЖЕНИЕ ССЫЛОК -->
-            {% if links %}
-            <div class="links-container">
+            
+            <div style="margin-bottom: 20px;">
                 {% for label, url in links %}
                     <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
                 {% endfor %}
             </div>
-            {% endif %}
         {% endif %}
 
         <div class="menu-vertical">
@@ -97,9 +221,84 @@
                     <a href="/{{ link }}" class="btn">{{ name }}</a>
                 {% endfor %}
             {% else %}
-                <a href="/" class="btn btn-back">← ВЕРНУТЬСЯ</a>
+                <a href="/" class="btn btn-back">← ВЕРНУТЬСЯ В ГЛАВНОЕ</a>
             {% endif %}
         </div>
     </div>
+
+    <script>
+        // --- ЧАСЫ ---
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+        }, 1000);
+
+        // --- ФОН С ЧАСТИЦАМИ ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let dots = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Dot {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5;
+                this.spX = (Math.random() - 0.5) * 0.7;
+                this.spY = (Math.random() - 0.5) * 0.7;
+            }
+            update() {
+                this.x += this.spX;
+                this.y += this.spY;
+                if (this.x < 0 || this.x > canvas.width) this.spX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.spY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(0, 255, 204, 0.3)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) dots.push(new Dot());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dots.forEach(d => { d.update(); d.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- 3D ЭФФЕКТ КАРТОЧКИ ---
+        const card = document.getElementById('main-card');
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 25;
+            const y = (window.innerHeight / 2 - e.pageY) / 25;
+            card.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
+        });
+
+        // --- СЕКРЕТНЫЙ КЛИК (ВОЛНА) ---
+        document.addEventListener('mousedown', (e) => {
+            const wave = document.createElement('div');
+            wave.style.cssText = `
+                position: fixed; top: ${e.pageY}px; left: ${e.pageX}px;
+                width: 5px; height: 5px; border: 2px solid var(--primary);
+                border-radius: 50%; pointer-events: none; z-index: 100;
+                transition: 0.6s ease-out; opacity: 1; transform: translate(-50%, -50%) scale(0);
+            `;
+            document.body.appendChild(wave);
+            setTimeout(() => {
+                wave.style.transform = 'translate(-50%, -50%) scale(40)';
+                wave.style.opacity = '0';
+            }, 10);
+            setTimeout(() => wave.remove(), 700);
+        });
+    </script>
 </body>
 </html>
