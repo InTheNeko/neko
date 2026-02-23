@@ -2,11 +2,18 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Функция-помощник: превращает обычную ссылку в ссылку для плеера
+# Умная функция для любых ссылок YouTube
 def format_youtube(url):
     if not url: return None
+    # Если это короткая ссылка youtu.be/ID
+    if "youtu.be/" in url:
+        video_id = url.split("youtu.be/")[1].split("?")[0]
+        return f"https://www.youtube.com{video_id}"
+    # Если это обычная ссылка watch?v=ID
     if "watch?v=" in url:
-        return url.replace("watch?v=", "embed/")
+        video_id = url.split("watch?v=")[1].split("&")[0]
+        return f"https://www.youtube.com{video_id}"
+    # Если уже embed или что-то другое
     return url
 
 friends_list = [
@@ -21,40 +28,30 @@ def home():
 @app.route('/<page_name>')
 def show_page(page_name):
     friends_info = {
-        # Теперь сюда можно вставлять ОБЫЧНЫЕ ссылки!
         "cat": ("Кот", "Самый главный, у него лапки.", "cat.jpg", 
-                [("Steam", "https://steamcommunity.com/profiles/76561199122830516/")
-                 ("Валерьянка", "#")], 
+                [("Steam", "https://steamcommunity.com")], 
                 "Заметка: Главный администратор. Любит спать.",
-                ["https://www.youtube.com/watch?v=dQw4w9WgXcQ", "https://www.youtube.com"]),
+                ["https://www.youtube.com", "https://youtu.be"]),
         
         "ruslan": ("Руслан", "Ну так ну сяк", "ruslan.jpg", 
-                   [("Steam", "https://steamcommunity.com/profiles/76561199198583765/")],
+                   [("Steam", "https://steamcommunity.com")],
                    "Заметка: да и так пойдёт", 
                    ["https://www.youtube.com"]), 
         
         "andrey": ("Андрей", "Постоянно ест", "andrey.jpg", 
-                   [("Steam", "https://steamcommunity.com/profiles/76561198337510525/")
-                    ("я гей", "https://youareanidiot.cc")],
+                   [("Steam", "https://steamcommunity.com")],
                    "Заметка: Если не отвечает, значит ушел на кухню.", []),
         
-        "timokha": ("Тимофка", "Жаль что он с нами.", "timokha.jpg", 
-                    [("Steam", "https://steamcommunity.com/profiles/76561199054205841/")], 
-                    "Заметка: туда сюда.", []),
-        
-        "lesha": ("Лёша", "Гном всегда гном.", "lesha.jpg", 
-                  [("Steam", "https://steamcommunity.com/profiles/76561199096404881/")], 
-                  "Заметка: Рост — 0.", []),
-        
-        "ibragim": ("Ибрагим", "Почти скоро 12.", "ibragim.jpg", 
-                    [("Steam", "https://steamcommunity.com/profiles/76561199556449044/")], 
-                    "Заметка: Танки.", [])
+        "timokha": ("Тимофка", "Жаль что он с нами.", "timokha.jpg", [], "Заметка: Опасен.", []),
+        "lesha": ("Лёша", "Гном всегда гном.", "lesha.jpg", [], "Заметка: Рост — 0.", []),
+        "ibragim": ("Ибрагим", "Почти скоро 12.", "ibragim.jpg", [], "Заметка: Танки.", [])
     }
     
     data = friends_info.get(page_name)
     if data:
-        # Автоматически исправляем все ссылки в списке перед отправкой на сайт
-        formatted_videos = [format_youtube(v) for v in data[5]]
+        # Форматируем все видео в списке
+        raw_videos = data[5]
+        formatted_videos = [format_youtube(v) for v in raw_videos]
         
         return render_template('index.html', 
                                title=data[0], description=data[1], photo=data[2], 

@@ -38,7 +38,7 @@
             color: var(--accent); padding: 6px 14px; border-radius: 8px;
             cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 12px;
         }
-        .nav-dot:hover { background: var(--accent); color: #000; box-shadow: 0 0 10px var(--accent); }
+        .nav-dot:hover { background: var(--accent); color: #000; }
         .active-dot { background: var(--accent) !important; color: #000 !important; }
         .btn {
             display: block; padding: 12px; margin-top: 10px;
@@ -81,6 +81,7 @@
             <div style="margin-top: 30px;">
                 <h3 style="font-size: 14px; opacity: 0.8;">🎬 ГАЛЕРЕЯ МОМЕНТОВ:</h3>
                 <div class="video-container">
+                    <!-- Берем первое видео из списка для старта -->
                     <iframe id="mainPlayer" src="{{ video_list[0] }}" allowfullscreen></iframe>
                 </div>
 
