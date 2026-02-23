@@ -31,7 +31,7 @@ def show_page(page_name):
         "cat": ("Кот", "Самый главный, у него лапки.", "cat.jpg", 
                 [("Steam", "https://steamcommunity.com")], 
                 "Заметка: Главный администратор. Любит спать.",
-                ["https://www.youtube.com", "https://youtu.be"]),
+                ["https://www.youtube.com/watch?v=dQw4w9WgXcQ", "https://youtu.be"]),
         
         "ruslan": ("Руслан", "Ну так ну сяк", "ruslan.jpg", 
                    [("Steam", "https://steamcommunity.com")],
@@ -42,9 +42,15 @@ def show_page(page_name):
                    [("Steam", "https://steamcommunity.com")],
                    "Заметка: Если не отвечает, значит ушел на кухню.", []),
         
-        "timokha": ("Тимофка", "Жаль что он с нами.", "timokha.jpg", [], "Заметка: Опасен.", []),
-        "lesha": ("Лёша", "Гном всегда гном.", "lesha.jpg", [], "Заметка: Рост — 0.", []),
-        "ibragim": ("Ибрагим", "Почти скоро 12.", "ibragim.jpg", [], "Заметка: Танки.", [])
+        "timokha": ("Тимофка", "Жаль что он с нами.", "timokha.jpg", [], "Заметка: Опасен.", []
+                    [("Steam", "https://steamcommunity.com")],
+                   "Заметка: Если не отвечает, значит ушел на кухню.", []),
+        "lesha": ("Лёша", "Гном всегда гном.", "lesha.jpg", [], "Заметка: Рост — 0.", []
+                  [("Steam", "https://steamcommunity.com")],
+                   "Заметка: Если не отвечает, значит ушел на кухню.", []),
+        "ibragim": ("Ибрагим", "Почти скоро 12.", "ibragim.jpg", [], "Заметка: Танки.", []
+                    [("Steam", "https://steamcommunity.com")],
+                   "Заметка: Если не отвечает, значит ушел на кухню.", [])
     }
     
     data = friends_info.get(page_name)
