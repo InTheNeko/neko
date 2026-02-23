@@ -1,9 +1,7 @@
 from flask import Flask, render_template
-import random
 
 app = Flask(__name__)
 
-# Список для главной страницы
 friends_list = [
     ("Кот", "cat"),
     ("Руслан", "ruslan"),
@@ -15,10 +13,11 @@ friends_list = [
 
 @app.route('/')
 def home():
-    return render_template('index.html', buttons=friends_list, title="ВЫБОР ПРОФИЛЯ", is_home=True)
+    return render_template('index.html', buttons=friends_list, title="Выберите бойца", is_home=True)
 
 @app.route('/<page_name>')
 def show_page(page_name):
+    # Новая структура: (Имя, Описание, Фото, Ссылки, Статус, Любимая игра)
     friends_info = {
        "cat": ("Кот", "Самый главный, у него лапки и власть.", "cat.jpg", 
                 [("Steam", "https://steamcommunity.com/profiles/76561199122830516/"), ("Валерьянка", "#")]),
@@ -42,15 +41,14 @@ def show_page(page_name):
     data = friends_info.get(page_name)
     
     if data:
-        # Генерируем случайный ID узла для красоты
-        node_id = random.randint(1000, 9999)
         return render_template('index.html', 
                                title=data[0],        
                                description=data[1],  
                                photo=data[2],        
-                               links=data[3],        
-                               is_home=False,
-                               node_id=node_id)
+                               links=data[3],
+                               status=data[4],
+                               game=data[5],
+                               is_home=False)
     
     return "Профиль не найден", 404
 

@@ -6,205 +6,160 @@
     <title>{{ title }}</title>
     <style>
         :root {
-            --primary: #00ffcc;
-            --accent: #ff00ff;
-            --bg-dark: #050505;
+            --accent: #00ffcc;
+            --bg: #0f0f12;
+            --card-bg: rgba(25, 25, 28, 0.9);
         }
 
         body {
             margin: 0;
-            overflow: hidden;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-dark);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0f0f12 100%);
+            color: #e0e0e0;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* Центрируем по горизонтали */
+            align-items: center;    /* Центрируем по вертикали */
             min-height: 100vh;
-            /* Убрал perspective отсюда */
         }
 
-        #bg-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-        }
-
-        .scanline {
-            width: 100%; height: 10px;
-            background: rgba(0, 255, 204, 0.1);
-            position: fixed; top: -20px; left: 0;
-            z-index: 10; pointer-events: none;
-            box-shadow: 0 0 20px var(--primary);
-            animation: scan 6s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { top: -20px; }
-            100% { top: 100%; }
-        }
-
-        /* Карточка теперь БЕЗ transform-style и БЕЗ скриптов наклона */
         .card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 50px 40px;
-            border-radius: 30px;
-            width: 380px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-            animation: cardAppear 0.5s ease-out;
-            position: relative;
-            z-index: 5;
-            /* Явно сбрасываем любые трансформации */
-            transform: none !important; 
+            background: var(--card-bg);
+            border: 1px solid #333;
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            transition: 0.4s;
+            text-align: center; /* Текст на главной по центру */
         }
 
-        @keyframes cardAppear {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+        /* Если это профиль, выравнивание текста по левому краю для стиля */
+        .profile-view { text-align: left; }
+
+        .player-photo {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--accent);
         }
 
-        h1 {
-            font-size: 2.4rem;
-            color: #fff;
+        h1 { font-size: 32px; color: #fff; margin: 0 0 15px 0; letter-spacing: -1px; }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: rgba(0, 255, 204, 0.1);
+            color: var(--accent);
             margin-bottom: 15px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        }
+
+        .desc { font-size: 15px; color: #aaa; line-height: 1.5; margin-bottom: 20px; }
+        
+        .info-row {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #888;
+        }
+        .info-row b { color: #fff; }
+
+        .links-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .link-tag {
+            flex: 1;
+            background: #1e1e21;
+            color: var(--accent);
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            text-align: center;
+            font-weight: 600;
             transition: 0.3s;
         }
 
-        h1:hover {
-            text-shadow: 3px 0 var(--accent), -3px 0 var(--primary);
+        .link-tag:hover {
+            background: var(--accent);
+            color: #000;
         }
 
-        .player-photo {
-            width: 160px; height: 160px;
-            object-fit: cover; border-radius: 50%;
-            margin: 0 auto 25px;
-            border: 3px solid var(--primary);
-            box-shadow: 0 0 30px rgba(0, 255, 204, 0.4);
-        }
-
-        .desc { color: #aaa; font-size: 15px; margin-bottom: 30px; }
-
+        .menu-vertical { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        
         .btn {
-            display: block; padding: 16px; margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.05); color: #fff;
-            text-decoration: none; border: 1px solid rgba(0, 255, 204, 0.3);
-            border-radius: 15px; font-weight: 800; font-size: 11px;
-            text-transform: uppercase; letter-spacing: 2px;
+            display: block; 
+            padding: 14px; 
+            background: linear-gradient(145deg, #1e1e21, #161618);
+            color: #fff;
+            text-decoration: none; 
+            border: 1px solid #333; 
+            border-radius: 10px;
+            font-weight: 600; 
             transition: 0.3s;
         }
 
         .btn:hover {
-            background: rgba(0, 255, 204, 0.1);
-            border-color: var(--primary);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
             transform: translateY(-2px);
         }
 
-        .btn-back { border-color: #ff4444; color: #ff4444; }
-
-        .sys-ui {
-            position: fixed; font-family: monospace;
-            color: var(--primary); font-size: 10px; opacity: 0.4;
+        .btn-back {
+            background: transparent;
+            color: #666;
+            margin-top: 10px;
+            border-style: dashed;
         }
-        .top-left { top: 20px; left: 20px; }
-        .bottom-right { bottom: 20px; right: 20px; text-align: right; }
+
+        .btn-back:hover { color: #ff4444; border-color: #ff4444; }
     </style>
 </head>
 <body>
 
-    <canvas id="bg-canvas"></canvas>
-    <div class="scanline"></div>
-
-    <div class="sys-ui top-left">
-        STATUS: ENCRYPTED<br>SIGNAL: STABLE
-    </div>
-    <div class="sys-ui bottom-right">
-        NODE_ID: {{ node_id if node_id else '7741' }}<br>
-        <span id="clock">00:00:00</span>
-    </div>
-
-    <div class="card">
+    <div class="card {% if not is_home %}profile-view{% endif %}">
         <h1>{{ title }}</h1>
 
         {% if not is_home %}
+            <div class="status-badge">{{ status }}</div>
+            
             {% if photo %}
                 <img src="{{ url_for('static', filename='images/' + photo) }}" class="player-photo">
             {% endif %}
+            
+            <div class="info-row">Любимая игра: <b>{{ game }}</b></div>
             <p class="desc">{{ description }}</p>
+
+            {% if links %}
+            <div class="links-container">
+                {% for label, url in links %}
+                    <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
         {% endif %}
 
         <div class="menu-vertical">
             {% if is_home %}
+                <p style="color: #666; margin-bottom: 20px;">Выберите пользователя для просмотра деталей</p>
                 {% for name, link in buttons %}
                     <a href="/{{ link }}" class="btn">{{ name }}</a>
                 {% endfor %}
             {% else %}
-                <a href="/" class="btn btn-back">← RETURN TO BASE</a>
+                <a href="/" class="btn btn-back">← НАЗАД В МЕНЮ</a>
             {% endif %}
         </div>
     </div>
 
-    <script>
-        // Обновление времени
-        setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
-        }, 1000);
-
-        // Частицы на фоне
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let dots = [];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize); resize();
-
-        class Dot {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.spX = (Math.random() - 0.5) * 0.5;
-                this.spY = (Math.random() - 0.5) * 0.5;
-            }
-            update() {
-                this.x += this.spX; this.y += this.spY;
-                if (this.x < 0 || this.x > canvas.width) this.spX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.spY *= -1;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(0, 255, 204, 0.2)';
-                ctx.beginPath(); ctx.arc(this.x, this.y, 1, 0, Math.PI * 2); ctx.fill();
-            }
-        }
-        for (let i = 0; i < 50; i++) dots.push(new Dot());
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            dots.forEach(d => { d.update(); d.draw(); });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // Секретный клик (теперь только визуальный эффект круга)
-        document.addEventListener('mousedown', (e) => {
-            const wave = document.createElement('div');
-            wave.style.cssText = `
-                position: fixed; top: ${e.pageY}px; left: ${e.pageX}px;
-                width: 2px; height: 2px; border: 2px solid var(--primary);
-                border-radius: 50%; pointer-events: none; z-index: 100;
-                transition: 0.5s ease-out; opacity: 1; transform: translate(-50%, -50%) scale(0);
-            `;
-            document.body.appendChild(wave);
-            setTimeout(() => {
-                wave.style.transform = 'translate(-50%, -50%) scale(40)';
-                wave.style.opacity = '0';
-            }, 10);
-            setTimeout(() => wave.remove(), 600);
-        });
-        
-        // ВСЕ СКРИПТЫ НАКЛОНА УДАЛЕНЫ
-    </script>
 </body>
 </html>
