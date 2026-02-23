@@ -20,7 +20,6 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            perspective: 1200px;
         }
 
         /* Фоновый холст для частиц */
@@ -52,7 +51,7 @@
             100% { top: 100%; }
         }
 
-        /* Стеклянная карточка */
+        /* Стеклянная карточка (теперь статичная) */
         .card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
@@ -63,14 +62,14 @@
             width: 380px;
             text-align: center;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
             animation: cardAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 5;
         }
 
         @keyframes cardAppear {
-            from { opacity: 0; transform: scale(0.8) translateZ(-100px); }
-            to { opacity: 1; transform: scale(1) translateZ(0); }
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         h1 {
@@ -83,7 +82,6 @@
             cursor: pointer;
         }
 
-        /* Секретный глитч при наведении на имя */
         h1:hover {
             text-shadow: 3px 0 var(--accent), -3px 0 var(--primary);
             transform: scale(1.05);
@@ -113,7 +111,6 @@
             margin-bottom: 30px;
         }
 
-        /* Кнопки */
         .btn {
             display: block;
             padding: 16px;
@@ -129,7 +126,6 @@
             letter-spacing: 2px;
             transition: 0.4s;
             position: relative;
-            overflow: hidden;
         }
 
         .btn:hover {
@@ -145,12 +141,6 @@
             margin-top: 25px;
         }
 
-        .btn-back:hover {
-            background: rgba(255, 68, 68, 0.1);
-            border-color: #ff4444;
-        }
-
-        /* Ссылки-теги */
         .link-tag {
             color: var(--primary);
             text-decoration: none;
@@ -163,12 +153,8 @@
             transition: 0.3s;
         }
 
-        .link-tag:hover {
-            background: var(--primary);
-            color: #000;
-        }
+        .link-tag:hover { background: var(--primary); color: #000; }
 
-        /* Системная информация по углам */
         .sys-ui {
             position: fixed;
             font-family: monospace;
@@ -179,7 +165,6 @@
         }
         .top-left { top: 20px; left: 20px; }
         .bottom-right { bottom: 20px; right: 20px; text-align: right; }
-
     </style>
 </head>
 <body>
@@ -187,19 +172,15 @@
     <canvas id="bg-canvas"></canvas>
     <div class="scanline"></div>
 
-    <!-- Декоративный UI -->
     <div class="sys-ui top-left">
-        PROTOCOL: STEAM_OS v4.0<br>
-        STATUS: ACTIVE<br>
-        ENCRYPTION: AES-256
+        PROTOCOL: STEAM_OS v4.0<br>STATUS: ACTIVE<br>ENCRYPTION: AES-256
     </div>
     <div class="sys-ui bottom-right">
-        LOCATION: SECTOR_7<br>
-        NODE_ID: {{ node_id if node_id else '8821' }}<br>
+        LOCATION: SECTOR_7<br>NODE_ID: {{ node_id if node_id else '8821' }}<br>
         TIME: <span id="clock">00:00:00</span>
     </div>
 
-    <div class="card" id="main-card">
+    <div class="card">
         <h1>{{ title }}</h1>
 
         {% if not is_home %}
@@ -221,28 +202,23 @@
                     <a href="/{{ link }}" class="btn">{{ name }}</a>
                 {% endfor %}
             {% else %}
-                <a href="/" class="btn btn-back">← ВЕРНУТЬСЯ В ГЛАВНОЕ</a>
+                <a href="/" class="btn btn-back">← RETURN TO BASE</a>
             {% endif %}
         </div>
     </div>
 
     <script>
-        // --- ЧАСЫ ---
+        // Часы
         setInterval(() => {
             document.getElementById('clock').innerText = new Date().toLocaleTimeString();
         }, 1000);
 
-        // --- ФОН С ЧАСТИЦАМИ ---
+        // Частицы фона
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let dots = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
 
         class Dot {
             constructor() {
@@ -253,21 +229,16 @@
                 this.spY = (Math.random() - 0.5) * 0.7;
             }
             update() {
-                this.x += this.spX;
-                this.y += this.spY;
+                this.x += this.spX; this.y += this.spY;
                 if (this.x < 0 || this.x > canvas.width) this.spX *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.spY *= -1;
             }
             draw() {
                 ctx.fillStyle = 'rgba(0, 255, 204, 0.3)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
-
         for (let i = 0; i < 60; i++) dots.push(new Dot());
-
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             dots.forEach(d => { d.update(); d.draw(); });
@@ -275,15 +246,7 @@
         }
         animate();
 
-        // --- 3D ЭФФЕКТ КАРТОЧКИ ---
-        const card = document.getElementById('main-card');
-        document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.pageX) / 25;
-            const y = (window.innerHeight / 2 - e.pageY) / 25;
-            card.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
-        });
-
-        // --- СЕКРЕТНЫЙ КЛИК (ВОЛНА) ---
+        // Секретный клик
         document.addEventListener('mousedown', (e) => {
             const wave = document.createElement('div');
             wave.style.cssText = `
