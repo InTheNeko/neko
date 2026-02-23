@@ -2,53 +2,93 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <style>
+        :root {
+            --accent: #00ffcc;
+            --video-accent: #ff0055;
+            --bg-dark: #050505;
+            --card-bg: rgba(25, 25, 28, 0.8);
+        }
+
         body {
-            margin: 0; font-family: 'Segoe UI', sans-serif;
-            background-color: #0a0a0b; color: #e0e0e0;
+            margin: 0; font-family: 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #050505 100%);
+            color: #e0e0e0;
             display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
-        .main-container { display: flex; gap: 40px; align-items: stretch; }
+
+        .main-container { display: flex; gap: 30px; align-items: stretch; max-width: 900px; padding: 20px; }
+
+        /* Левая карточка */
         .card {
-            background: rgba(20, 20, 22, 0.9); border: 1px solid #333;
-            padding: 40px; border-radius: 12px; width: 350px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            background: var(--card-bg); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 35px; border-radius: 20px; width: 320px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
         }
+
+        .player-photo { 
+            width: 100%; border-radius: 12px; margin-bottom: 20px; 
+            border: 2px solid var(--accent); box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
+        }
+
+        h1 { font-size: 28px; margin: 0 0 10px 0; color: #fff; }
+        .desc { font-size: 15px; color: #aaa; line-height: 1.5; margin-bottom: 20px; }
+
+        /* Кнопки меню и теги */
+        .links-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; }
+        .link-tag { 
+            background: rgba(255, 255, 255, 0.05); color: var(--accent); 
+            padding: 6px 14px; border: 1px solid rgba(0, 255, 204, 0.3); 
+            border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: bold; transition: 0.3s;
+        }
+        .link-tag:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
+
+        .menu-vertical { display: flex; flex-direction: column; gap: 10px; }
+        .btn { 
+            display: block; padding: 14px; background: rgba(255, 255, 255, 0.05); 
+            color: #fff; text-decoration: none; border-radius: 10px; 
+            font-weight: bold; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s;
+        }
+        .btn:hover { border-color: var(--accent); transform: translateY(-2px); background: rgba(255, 255, 255, 0.1); }
+        .btn-back { border: none; color: #666; font-size: 13px; }
+
+        /* Правый блок (Заметки) */
         .notes-box {
-            background: rgba(255, 255, 255, 0.03); border-left: 4px solid #00ffcc;
-            padding: 20px; border-radius: 8px; width: 250px;
-            color: #aaa; font-style: italic; animation: fadeIn 0.8s ease;
-            display: flex; flex-direction: column; /* Делаем колонку для управления кнопкой */
+            background: rgba(0, 255, 204, 0.03); backdrop-filter: blur(10px);
+            border-left: 4px solid var(--accent); border-radius: 20px;
+            padding: 25px; width: 240px; display: flex; flex-direction: column;
+            animation: slideIn 0.6s ease-out;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        .player-photo { width: 100%; border-radius: 8px; margin-bottom: 20px; border: 1px solid #00ffcc; }
-        h1 { font-size: 28px; color: #ffffff; margin-bottom: 10px; }
-        .desc { font-size: 16px; color: #888; line-height: 1.6; margin-bottom: 20px; }
-        .links-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
-        .link-tag { background: #1a1a1c; color: #00ffcc; padding: 6px 12px; border: 1px solid #333; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold; transition: 0.3s; }
-        .link-tag:hover { background: #00ffcc; color: #000; }
-        .menu-vertical { display: flex; flex-direction: column; gap: 12px; }
-        .btn { display: block; padding: 15px; background: #1a1a1c; color: #00ffcc; text-decoration: none; border: 1px solid #333; border-radius: 6px; font-weight: bold; text-align: center; transition: 0.3s; }
-        .btn:hover { border-color: #00ffcc; transform: translateX(8px); }
-        .btn-back { border-color: #444; color: #666; margin-top: 10px; }
-        
-        .btn-moment {
-            margin-top: auto; /* ПРИЖИМАЕМ КНИЗУ */
-            padding-top: 20px;
-        }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        .notes-box h3 { color: var(--accent); margin-top: 0; font-size: 18px; }
+        .notes-box p { color: #ccc; font-style: italic; line-height: 1.6; font-size: 14px; flex-grow: 1; }
+
+        /* Кнопка с видео в самом низу заметок */
+        .video-footer { margin-top: 20px; }
         .btn-vid {
-            display: block; padding: 12px;
-            background: linear-gradient(45deg, #ff0055, #ff5500);
-            color: white; text-decoration: none; border-radius: 6px;
-            font-weight: bold; text-align: center; font-size: 13px;
-            transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 0, 85, 0.2);
+            display: block; padding: 12px; background: var(--video-accent);
+            color: white; text-decoration: none; border-radius: 8px;
+            font-weight: bold; text-align: center; font-size: 12px;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+            animation: pulse 2s infinite;
         }
-        .btn-vid:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255, 0, 85, 0.4); }
+        .btn-vid:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 0, 85, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); }
+        }
     </style>
 </head>
 <body>
     <div class="main-container">
+        <!-- Карточка профиля -->
         <div class="card">
             <h1>{{ title }}</h1>
             {% if not is_home %}
@@ -60,28 +100,28 @@
                     {% endfor %}
                 </div>
             {% endif %}
+            
             <div class="menu-vertical">
                 {% if is_home %}
                     {% for name, link in buttons %}
                         <a href="/{{ link }}" class="btn">{{ name }}</a>
                     {% endfor %}
                 {% else %}
-                    <a href="/" class="btn btn-back">← ВЕРНУТЬСЯ</a>
+                    <a href="/" class="btn btn-back">← НАЗАД В СПИСОК</a>
                 {% endif %}
             </div>
         </div>
 
+        <!-- Блок заметок и видео -->
         {% if not is_home and note %}
         <div class="notes-box">
-            <div class="text-content">
-                <h3 style="color: #00ffcc; margin-top: 0; font-style: normal;">Заметки</h3>
-                <p>{{ note }}</p>
-            </div>
+            <h3>Заметки</h3>
+            <p>{{ note }}</p>
             
             {% if video_url %}
-            <div class="btn-moment">
+            <div class="video-footer">
                 <a href="{{ video_url }}" target="_blank" class="btn-vid">
-                    🎬 ПРИКОЛЬНЫЙ МОМЕНТ
+                    🎬 МОМЕНТ
                 </a>
             </div>
             {% endif %}

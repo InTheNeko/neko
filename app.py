@@ -28,27 +28,27 @@ def show_page(page_name):
         "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
                    [("Steam", "https://steamcommunity.com")],
                    "Заметка: да и так пойдёт", 
-                   None),
+                   "https://www.youtube.com"), # Добавь ссылку сюда
         
         "andrey": ("Андрей", "Постояно ест", "andrey.jpg", 
                    [("Steam", "https://steamcommunity.com"), ("я гей", "https://youareanidiot.cc")],
                    "Заметка: Если не отвечает, значит ушел на кухню.",
-                   None),
+                   "https://www.youtube.com"), # Добавь ссылку сюда
         
         "timokha": ("Тимофка", "Жаль что он с нами.", "timokha.jpg", 
                     [("Steam", "https://steamcommunity.com")],
                     "Заметка: Опасен в кооперативных играх.",
-                    None),
+                    "https://www.youtube.com"), # Добавь ссылку сюда
         
         "lesha": ("Лёша", "Гном всегда гном.", "lesha.jpg", 
                   [("Steam", "https://steamcommunity.com")],
                   "Заметка: Маленький рост компенсирует ни чем",
-                  None),
+                  "https://www.youtube.com"), # Добавь ссылку сюда
         
         "ibragim": ("Ибрагим", "Почти скоро 12.", "ibragim.jpg", 
                     [("Steam", "https://steamcommunity.com")],
                     "Заметка: Аааа танки",
-                    None)
+                    "https://www.youtube.com") # Добавь ссылку сюда
     }
     
     data = friends_info.get(page_name)
@@ -60,7 +60,7 @@ def show_page(page_name):
                                photo=data[2],        
                                links=data[3],        
                                note=data[4],
-                               video_url=data[5], 
+                               video_url=data[5], # Передаем 6-й элемент (ссылку на видео)
                                is_home=False)
     
     return "Профиль не найден", 404
