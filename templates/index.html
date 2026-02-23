@@ -2,56 +2,44 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <style>
-        :root { --accent: #00ffcc; --card: rgba(25, 25, 30, 0.9); }
+        :root { --accent: #00ffcc; --card-bg: rgba(20, 20, 25, 0.9); }
         body {
             margin: 0; font-family: 'Segoe UI', sans-serif;
             background: radial-gradient(circle at center, #1a1a2e 0%, #050505 100%);
-            color: #eee; display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            color: #e0e0e0; display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
-        .main-container { display: flex; gap: 30px; align-items: flex-start; max-width: 1100px; padding: 20px; }
+        .main-container { display: flex; gap: 40px; align-items: flex-start; }
         .card {
-            background: var(--card); backdrop-filter: blur(10px);
-            padding: 30px; border-radius: 20px; width: 320px;
-            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background: var(--card-bg); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; width: 350px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
-        .player-photo { width: 100%; border-radius: 15px; border: 2px solid var(--accent); margin-bottom: 15px; }
         .notes-box {
-            background: var(--card); border-left: 4px solid var(--accent);
-            padding: 25px; border-radius: 20px; width: 480px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: fadeIn 0.5s ease;
+            background: rgba(0, 255, 204, 0.05); border-left: 4px solid var(--accent);
+            padding: 25px; border-radius: 12px; width: 250px;
+            color: #ccc; font-style: italic; animation: fadeIn 0.8s ease;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        h3 { color: var(--accent); margin-top: 0; font-size: 18px; }
-        p { color: #ccc; line-height: 1.6; font-style: italic; }
-        .video-container {
-            margin-top: 20px; position: relative; padding-bottom: 56.25%;
-            height: 0; overflow: hidden; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1); background: #000;
+        .player-photo { width: 100%; border-radius: 12px; margin-bottom: 20px; border: 2px solid var(--accent); }
+        h1 { font-size: 28px; color: #fff; margin: 0 0 10px 0; }
+        .desc { font-size: 16px; color: #aaa; line-height: 1.6; margin-bottom: 20px; }
+        .links-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+        .link-tag { 
+            background: rgba(255,255,255,0.05); color: var(--accent); padding: 8px 15px; 
+            border: 1px solid rgba(0,255,204,0.3); border-radius: 20px; text-decoration: none; 
+            font-size: 13px; font-weight: bold; transition: 0.3s; 
         }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .gallery-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
-        .nav-dot {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--accent);
-            color: var(--accent); padding: 6px 14px; border-radius: 8px;
-            cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 12px;
+        .link-tag:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
+        .menu-vertical { display: flex; flex-direction: column; gap: 12px; }
+        .btn { 
+            display: block; padding: 15px; background: rgba(255,255,255,0.05); color: #fff; 
+            text-decoration: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; 
+            font-weight: bold; text-align: center; transition: 0.3s; 
         }
-        .nav-dot:hover { background: var(--accent); color: #000; }
-        .active-dot { background: var(--accent) !important; color: #000 !important; }
-        .btn {
-            display: block; padding: 12px; margin-top: 10px;
-            background: rgba(255,255,255,0.05); color: #fff;
-            text-decoration: none; text-align: center; border-radius: 10px;
-            font-weight: bold; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
-        }
-        .btn:hover { border-color: var(--accent); transform: translateY(-2px); }
-        .link-tag {
-            display: inline-block; padding: 5px 12px; background: rgba(0,255,204,0.1);
-            color: var(--accent); border-radius: 15px; text-decoration: none;
-            font-size: 12px; margin-right: 5px; margin-bottom: 10px;
-        }
+        .btn:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .btn-back { border: none; color: #777; margin-top: 10px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -60,53 +48,30 @@
             <h1>{{ title }}</h1>
             {% if not is_home %}
                 <img src="{{ url_for('static', filename='images/' + photo) }}" class="player-photo">
-                <p>{{ description }}</p>
-                {% for label, url in links %}
-                    <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
-                {% endfor %}
-                <a href="/" class="btn" style="color: #666; font-size: 12px; margin-top: 20px; border:none;">← НАЗАД</a>
-            {% else %}
-                {% for name, link in buttons %}
-                    <a href="/{{ link }}" class="btn">{{ name }}</a>
-                {% endfor %}
+                <p class="desc">{{ description }}</p>
+                <div class="links-container">
+                    {% for label, url in links %}
+                        <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
+                    {% endfor %}
+                </div>
             {% endif %}
+            <div class="menu-vertical">
+                {% if is_home %}
+                    {% for name, link in buttons %}
+                        <a href="/{{ link }}" class="btn">{{ name }}</a>
+                    {% endfor %}
+                {% else %}
+                    <a href="/" class="btn btn-back">← НАЗАД В МЕНЮ</a>
+                {% endif %}
+            </div>
         </div>
 
         {% if not is_home and note %}
         <div class="notes-box">
-            <h3>Заметки</h3>
+            <h3 style="color: var(--accent); margin-top: 0;">Заметки</h3>
             <p>{{ note }}</p>
-
-            {% if video_list %}
-            <div style="margin-top: 30px;">
-                <h3 style="font-size: 14px; opacity: 0.8;">🎬 ГАЛЕРЕЯ МОМЕНТОВ:</h3>
-                <div class="video-container">
-                    <!-- Берем первое видео из списка для старта -->
-                    <iframe id="mainPlayer" src="{{ video_list[0] }}" allowfullscreen></iframe>
-                </div>
-
-                {% if video_list|length > 1 %}
-                <div class="gallery-nav">
-                    {% for vid in video_list %}
-                        <button class="nav-dot {% if loop.first %}active-dot{% endif %}" 
-                                onclick="changeVideo('{{ vid }}', this)">
-                            {{ loop.index }}
-                        </button>
-                    {% endfor %}
-                </div>
-                {% endif %}
-            </div>
-            {% endif %}
         </div>
         {% endif %}
     </div>
-
-    <script>
-        function changeVideo(url, btn) {
-            document.getElementById('mainPlayer').src = url;
-            document.querySelectorAll('.nav-dot').forEach(b => b.classList.remove('active-dot'));
-            btn.classList.add('active-dot');
-        }
-    </script>
 </body>
 </html>
