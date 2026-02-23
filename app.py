@@ -2,7 +2,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Список для главной страницы (Кот первый)
+# Список для главной страницы
 friends_list = [
     ("Кот", "cat"),
     ("Руслан", "ruslan"),
@@ -18,31 +18,37 @@ def home():
 
 @app.route('/<page_name>')
 def show_page(page_name):
-    # Структура: "ключ": (Имя, Описание, Фото, [Ссылки], Заметка)
+    # Структура: "ключ": (Имя, Описание, Фото, [Ссылки], Заметка, Видео_URL)
     friends_info = {
         "cat": ("Кот", "Самый главный, у него лапки.", "cat.jpg", 
-                [("Steam", "https://steamcommunity.com/profiles/76561199122830516/")], 
-                "Заметка: Главный администратор этого списка. Любит спать."),
+                [("Steam", "https://steamcommunity.com")], 
+                "Заметка: Главный администратор этого списка. Любит спать.",
+                "https://www.youtube.com"),
         
         "ruslan": ("Руслан", "Ну так ну сяк почти всегда берёт", "ruslan.jpg", 
-                   [("Steam", "https://steamcommunity.com/profiles/76561199198583765/")],
-                   "Заметка: да и так пойдёт"),
+                   [("Steam", "https://steamcommunity.com")],
+                   "Заметка: да и так пойдёт", 
+                   None),
         
         "andrey": ("Андрей", "Постояно ест", "andrey.jpg", 
-                   [("Steam", "https://steamcommunity.com/profiles/76561198337510525/"), ("я гей", "https://youareanidiot.cc")],
-                   "Заметка: Если не отвечает, значит ушел на кухню."),
+                   [("Steam", "https://steamcommunity.com"), ("я гей", "https://youareanidiot.cc")],
+                   "Заметка: Если не отвечает, значит ушел на кухню.",
+                   None),
         
         "timokha": ("Тимофка", "Жаль что он с нами.", "timokha.jpg", 
-                    [("Steam", "https://steamcommunity.com/profiles/76561199054205841/"), ],
-                    "Заметка: Опасен в кооперативных играх."),
+                    [("Steam", "https://steamcommunity.com")],
+                    "Заметка: Опасен в кооперативных играх.",
+                    None),
         
         "lesha": ("Лёша", "Гном всегда гном.", "lesha.jpg", 
-                  [("Steam", "https://steamcommunity.com/profiles/76561199096404881/"), ],
-                  "Заметка: Маленький рост компенсирует ни чем "),
+                  [("Steam", "https://steamcommunity.com")],
+                  "Заметка: Маленький рост компенсирует ни чем",
+                  None),
         
         "ibragim": ("Ибрагим", "Почти скоро 12.", "ibragim.jpg", 
-                    [("Steam", "https://steamcommunity.com/profiles/76561199556449044/"), ],
-                    "Заметка: Аааа танки")
+                    [("Steam", "https://steamcommunity.com")],
+                    "Заметка: Аааа танки",
+                    None)
     }
     
     data = friends_info.get(page_name)
@@ -53,7 +59,8 @@ def show_page(page_name):
                                description=data[1],  
                                photo=data[2],        
                                links=data[3],        
-                               note=data[4], # Заметка
+                               note=data[4],
+                               video_url=data[5], 
                                is_home=False)
     
     return "Профиль не найден", 404

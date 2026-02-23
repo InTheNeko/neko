@@ -9,7 +9,7 @@
             background-color: #0a0a0b; color: #e0e0e0;
             display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
-        .main-container { display: flex; gap: 40px; align-items: flex-start; }
+        .main-container { display: flex; gap: 40px; align-items: stretch; }
         .card {
             background: rgba(20, 20, 22, 0.9); border: 1px solid #333;
             padding: 40px; border-radius: 12px; width: 350px;
@@ -19,6 +19,7 @@
             background: rgba(255, 255, 255, 0.03); border-left: 4px solid #00ffcc;
             padding: 20px; border-radius: 8px; width: 250px;
             color: #aaa; font-style: italic; animation: fadeIn 0.8s ease;
+            display: flex; flex-direction: column; /* Делаем колонку для управления кнопкой */
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
         .player-photo { width: 100%; border-radius: 8px; margin-bottom: 20px; border: 1px solid #00ffcc; }
@@ -31,6 +32,19 @@
         .btn { display: block; padding: 15px; background: #1a1a1c; color: #00ffcc; text-decoration: none; border: 1px solid #333; border-radius: 6px; font-weight: bold; text-align: center; transition: 0.3s; }
         .btn:hover { border-color: #00ffcc; transform: translateX(8px); }
         .btn-back { border-color: #444; color: #666; margin-top: 10px; }
+        
+        .btn-moment {
+            margin-top: auto; /* ПРИЖИМАЕМ КНИЗУ */
+            padding-top: 20px;
+        }
+        .btn-vid {
+            display: block; padding: 12px;
+            background: linear-gradient(45deg, #ff0055, #ff5500);
+            color: white; text-decoration: none; border-radius: 6px;
+            font-weight: bold; text-align: center; font-size: 13px;
+            transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 0, 85, 0.2);
+        }
+        .btn-vid:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255, 0, 85, 0.4); }
     </style>
 </head>
 <body>
@@ -59,8 +73,18 @@
 
         {% if not is_home and note %}
         <div class="notes-box">
-            <h3 style="color: #00ffcc; margin-top: 0;">Заметки</h3>
-            <p>{{ note }}</p>
+            <div class="text-content">
+                <h3 style="color: #00ffcc; margin-top: 0; font-style: normal;">Заметки</h3>
+                <p>{{ note }}</p>
+            </div>
+            
+            {% if video_url %}
+            <div class="btn-moment">
+                <a href="{{ video_url }}" target="_blank" class="btn-vid">
+                    🎬 ПРИКОЛЬНЫЙ МОМЕНТ
+                </a>
+            </div>
+            {% endif %}
         </div>
         {% endif %}
     </div>
