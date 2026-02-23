@@ -6,174 +6,129 @@
     <title>{{ title }}</title>
     <style>
         :root {
-            --accent: #00ffcc;
-            --bg: #0a0a0c;
-            --card-bg: #141416;
+            --neon: #00ffcc;
+            --bg: #050505;
+            --card-bg: #111113;
         }
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg);
-            background-image: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0c 100%);
-            color: #e0e0e0;
+            background-image: 
+                linear-gradient(to bottom, rgba(0, 255, 204, 0.02) 1px, transparent 1px),
+                linear-gradient(to right, rgba(0, 255, 204, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         .card {
             background: var(--card-bg);
-            border: 1px solid #2d2d30;
-            padding: 35px;
+            border: 1px solid #222;
+            padding: 40px;
             border-radius: 24px;
             width: 100%;
-            max-width: 360px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+            max-width: 340px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
             text-align: center;
-            transition: transform 0.3s ease;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.6s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        /* Стили для профиля (выравнивание по левому краю) */
+        h1 { 
+            font-size: 48px; 
+            font-weight: 900; 
+            letter-spacing: 8px; 
+            margin: 0 0 40px 0; 
+            color: var(--neon);
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+        }
+
         .profile-mode { text-align: left; }
+        .profile-mode h1 { font-size: 32px; letter-spacing: 1px; margin-bottom: 20px; }
 
         .player-photo {
             width: 100%;
             height: 280px;
             object-fit: cover;
             border-radius: 16px;
-            margin-bottom: 20px;
-            border: 1px solid #333;
-        }
-
-        h1 { font-size: 28px; margin: 0 0 10px 0; color: #fff; }
-
-        .status-tag {
-            display: inline-block;
-            padding: 5px 12px;
-            background: rgba(0, 255, 204, 0.1);
-            color: var(--accent);
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .game-info {
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 10px;
-        }
-        .game-info b { color: #fff; }
-
-        .desc {
-            font-size: 15px;
-            color: #aaa;
-            line-height: 1.6;
             margin-bottom: 25px;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .links-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
+        .power-container { margin: 25px 0; }
+        .power-label { font-size: 10px; color: #666; display: flex; justify-content: space-between; margin-bottom: 6px; letter-spacing: 1px; }
+        .power-bar-bg { background: #1a1a1c; height: 4px; border-radius: 2px; overflow: hidden; }
+        .power-bar-fill { 
+            background: var(--neon); 
+            height: 100%; 
+            box-shadow: 0 0 10px var(--neon);
+            transition: width 1s ease-in-out;
         }
 
+        .desc { font-size: 15px; color: #999; line-height: 1.7; margin-bottom: 30px; font-weight: 300; }
+
+        .links-container { display: flex; gap: 12px; margin-bottom: 30px; }
         .link-tag {
-            flex: 1;
-            padding: 10px;
-            background: #1e1e21;
-            border: 1px solid #333;
-            border-radius: 10px;
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            text-align: center;
+            flex: 1; padding: 12px; background: #18181b; border: 1px solid #333; color: #eee;
+            text-decoration: none; font-size: 12px; text-align: center; border-radius: 10px;
             transition: 0.3s;
         }
+        .link-tag:hover { border-color: var(--neon); color: var(--neon); background: transparent; }
 
-        .link-tag:hover {
-            background: var(--accent);
-            color: #000;
-        }
-
-        .menu-vertical { display: flex; flex-direction: column; gap: 12px; width: 100%; }
-
+        .menu-vertical { display: flex; flex-direction: column; gap: 14px; }
         .btn {
-            display: block;
-            padding: 16px;
-            background: #1c1c1f;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: bold;
-            border: 1px solid #333;
-            transition: 0.3s;
+            padding: 18px; background: #18181b; border: 1px solid #2a2a2a; color: #fff;
+            text-decoration: none; border-radius: 14px; font-weight: 600; transition: 0.3s;
+            letter-spacing: 1px;
         }
-
-        .btn:hover {
-            border-color: var(--accent);
-            transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.15);
-        }
-
-        .btn-back {
-            background: transparent;
-            color: #666;
-            border: 1px dashed #444;
-            margin-top: 10px;
-        }
-
-        .btn-back:hover { color: #ff4444; border-color: #ff4444; }
+        .btn:hover { border-color: var(--neon); background: #1c1c1f; transform: translateY(-3px); }
+        
+        .btn-back { display: block; text-align: center; color: #444; margin-top: 20px; font-size: 10px; text-decoration: none; letter-spacing: 2px; }
+        .btn-back:hover { color: #888; }
     </style>
 </head>
 <body>
 
     <div class="card {% if not is_home %}profile-mode{% endif %}">
-        <h1>{{ title }}</h1>
-
         {% if is_home %}
-            <p style="color: #666; margin-bottom: 25px;">Выберите игрока из списка</p>
-        {% endif %}
-
-        {% if not is_home %}
-            <span class="status-tag">{{ status }}</span>
+            <h1>{{ title }}</h1>
+            <div class="menu-vertical">
+                {% for name, link in buttons %}
+                    <a href="/{{ link }}" class="btn">{{ name }}</a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h1>{{ title }}</h1>
             
             {% if photo %}
                 <img src="{{ url_for('static', filename='images/' + photo) }}" class="player-photo">
             {% endif %}
-            
-            <div class="game-info">Сейчас в: <b>{{ game }}</b></div>
+
+            <div class="power-container">
+                <div class="power-label"><span>DRAGON SCALE</span><span>{{ power }}%</span></div>
+                <div class="power-bar-bg"><div class="power-bar-fill" style="width: {{ power }}%;"></div></div>
+            </div>
+
             <p class="desc">{{ description }}</p>
 
-            {% if links %}
             <div class="links-container">
                 {% for label, url in links %}
                     <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
                 {% endfor %}
             </div>
-            {% endif %}
-        {% endif %}
 
-        <div class="menu-vertical">
-            {% if is_home %}
-                {% for name, link in buttons %}
-                    <a href="/{{ link }}" class="btn">{{ name }}</a>
-                {% endfor %}
-            {% else %}
-                <a href="/" class="btn btn-back">← НАЗАД К СПИСКУ</a>
-            {% endif %}
-        </div>
+            <a href="/" class="btn-back">← RETURN TO BASE</a>
+        {% endif %}
     </div>
 
 </body>
