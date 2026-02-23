@@ -2,142 +2,83 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <style>
+        :root { --neon: #00ffcc; --bg: #050505; --card-bg: #0f0f11; }
+
         body {
-            margin: 0;
-            background-color: #4a4a4a; /* Темно-серый фон как на рисунке */
-            color: #fff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            margin: 0; font-family: 'Inter', sans-serif;
+            background-color: var(--bg); color: #fff;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
 
-        /* Общий контейнер (горизонтальный) */
-        .sketch-container {
-            display: flex;
-            width: 800px;
-            gap: 40px;
-            padding: 20px;
+        .card {
+            background: var(--card-bg); padding: 45px; border-radius: 30px;
+            width: 100%; max-width: 340px; text-align: center;
+            border: 1px solid #1f1f22; box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            animation: fadeIn 0.5s ease-out;
         }
 
-        /* ЛЕВАЯ КОЛОНКА (Фото + Кнопки под ним) */
-        .left-col {
-            width: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        h1 { 
+            font-size: 52px; font-weight: 900; letter-spacing: 10px; 
+            margin: 0 0 40px 0; color: var(--neon); text-transform: uppercase;
         }
 
-        .photo-box {
-            width: 220px;
-            height: 220px;
-            background: #fff; /* Белая рамка как на рисунке */
-            padding: 10px;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
+        /* В профиле заголовок чуть меньше */
+        .profile-mode h1 { font-size: 34px; letter-spacing: 2px; margin-bottom: 25px; }
+
+        .player-photo {
+            width: 100%; height: 300px; object-fit: cover;
+            border-radius: 20px; margin-bottom: 30px; border: 1px solid #252528;
         }
 
-        .photo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .desc { font-size: 16px; color: #888; line-height: 1.8; margin-bottom: 35px; }
 
-        .nav-under-photo {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .links-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
+        .link-tag {
+            padding: 14px; background: #161618; border: 1px solid #252528; color: #fff;
+            text-decoration: none; border-radius: 12px; font-weight: 600; transition: 0.3s;
         }
+        .link-tag:hover { background: var(--neon); color: #000; transform: scale(1.02); }
 
-        /* ПРАВАЯ КОЛОНКА (Текст "Заполни") */
-        .right-col {
-            flex: 1;
-            padding-top: 10px;
-        }
-
-        h1 {
-            font-size: 50px;
-            margin: 0 0 20px 0;
-            color: #ccc; /* Светло-серый текст */
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        .desc {
-            font-size: 20px;
-            line-height: 1.5;
-            color: #bbb;
-        }
-
-        /* Стили кнопок */
+        .menu-vertical { display: flex; flex-direction: column; gap: 15px; }
         .btn {
-            display: block;
-            padding: 10px;
-            background: #333;
-            color: #fff;
-            text-decoration: none;
-            text-align: center;
-            border: 1px solid #555;
-            font-size: 14px;
-            transition: 0.2s;
+            padding: 20px; background: #161618; border: 1px solid #222; color: #fff;
+            text-decoration: none; border-radius: 15px; font-weight: bold; transition: 0.3s;
         }
-        .btn:hover { background: #555; border-color: #fff; }
-
-        .btn-back {
-            margin-top: 15px;
-            color: #999;
-            text-decoration: none;
-            font-size: 12px;
-        }
-        .btn-back:hover { color: #fff; }
-
-        /* Главная страница */
-        .home-card { text-align: center; }
-        .home-card h1 { font-size: 70px; color: #00ffcc; margin-bottom: 30px; }
+        .btn:hover { border-color: var(--neon); transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,255,204,0.1); }
+        
+        .btn-back { display: block; color: #444; margin-top: 25px; font-size: 11px; text-decoration: none; letter-spacing: 2px; }
+        .btn-back:hover { color: var(--neon); }
     </style>
 </head>
 <body>
 
-    {% if is_home %}
-    <div class="home-card">
+    <div class="card {% if not is_home %}profile-mode{% endif %}">
         <h1>{{ title }}</h1>
-        <div class="nav-under-photo" style="width: 300px; margin: 0 auto;">
-            {% for name, link in buttons %}
-                <a href="/{{ link }}" class="btn">{{ name }}</a>
-            {% endfor %}
-        </div>
-    </div>
-    {% else %}
-    <div class="sketch-container">
-        <!-- ЛЕВО: Фото и навигация -->
-        <div class="left-col">
-            <div class="photo-box">
-                {% if photo %}
-                    <img src="{{ url_for('static', filename='images/' + photo) }}">
-                {% else %}
-                    <div style="color:#000; text-align:center; padding-top:80px;">ФОТО</div>
-                {% endif %}
-            </div>
-            
-            <div class="nav-under-photo">
-                {% for label, url in links %}
-                    <a href="{{ url }}" class="btn" target="_blank">{{ label }}</a>
-                {% endfor %}
-                <a href="/" class="btn-back">← ВЕРНУТЬСЯ</a>
-            </div>
-        </div>
 
-        <!-- ПРАВО: Текст ("Заполни") -->
-        <div class="right-col">
-            <h1>{{ title }}</h1>
+        {% if not is_home %}
+            {% if photo %}
+                <img src="{{ url_for('static', filename='images/' + photo) }}" class="player-photo">
+            {% endif %}
             <p class="desc">{{ description }}</p>
-        </div>
+            <div class="links-container">
+                {% for label, url in links %}
+                    <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
+                {% endfor %}
+            </div>
+            <a href="/" class="btn-back">EXIT TO MENU</a>
+        {% else %}
+            <div class="menu-vertical">
+                {% for name, link in buttons %}
+                    <a href="/{{ link }}" class="btn">{{ name }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
-    {% endif %}
 
 </body>
 </html>

@@ -14,17 +14,28 @@ def home():
 @app.route('/<page_name>')
 def show_page(page_name):
     friends_info = {
-        "cat": ("Кот", "Главный архитектор хаоса. У него лапки, но власть абсолютна.", "cat.jpg", [("Steam", "#")]),
-        "ruslan": ("Руслан", "Мастер тактики. Почти всегда берет инициативу на себя.", "ruslan.jpg", [("Steam", "#")]),
-        "andrey": ("Андрей", "Легенда состава. Спокоен и крайне опасен.", "andrey.jpg", [("Steam", "#")]),
-        "timokha": ("Тимофка", "Стихийное бедствие. Никто не знает его следующий шаг.", "timokha.jpg", [("Steam", "#")]),
-        "lesha": ("Лёша", "Надежный как скала. Всегда там, где нужна поддержка.", "lesha.jpg", [("Steam", "#")]),
-        "ibragim": ("Ибрагим", "Молодой талант. Будущее этой команды.", "ibragim.jpg", [("Steam", "#")])
+        "cat": ("Кот", "Главный архитектор хаоса. Обладает безграничной властью и самыми острыми когтями.", "cat.jpg", 
+                [("Steam", "https://steamcommunity.com")]),
+        
+        "ruslan": ("Руслан", "Мастер тактических решений. Почти всегда в деле, когда нужно затащить.", "ruslan.jpg", 
+                   [("Steam", "https://steamcommunity.com")]),
+        
+        "andrey": ("Андрей", "Легенда состава. Его спокойствие в бою пугает врагов больше, чем оружие.", "andrey.jpg", 
+                   [("Steam", "https://steamcommunity.com")]),
+        
+        "timokha": ("Тимофка", "Стихийное бедствие. Никто не знает, чего от него ждать в следующую минуту.", "timokha.jpg", 
+                    [("Steam", "https://steamcommunity.com")]),
+        
+        "lesha": ("Лёша", "Надежный как швейцарские часы. Всегда там, где нужна поддержка.", "lesha.jpg", 
+                  [("Steam", "https://steamcommunity.com")]),
+        
+        "ibragim": ("Ибрагим", "Молодой талант с огромным потенциалом. Будущее этой команды.", "ibragim.jpg", 
+                    [("Steam", "https://steamcommunity.com")])
     }
     
     data = friends_info.get(page_name)
     if data:
-        return render_template('index.html', title=data[0], description=data[1], photo=data[2], links=data[3], is_home=False)
+        return render_template('index.html', title=data, description=data, photo=data, links=data, is_home=False)
     return "Not Found", 404
 
 if __name__ == '__main__':
