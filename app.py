@@ -31,7 +31,7 @@ def show_page(page_name):
         "cat": ("Кот", "Самый главный, у него лапки.", "cat.jpg", 
                 [("Steam", "https://steamcommunity.com")], 
                 "Заметка: Главный администратор. Любит спать.",
-                ["https://www.youtube.com/watch?v=dQw4w9WgXcQ", "https://youtu.be"]),
+                ["", "https://youtu.be"]),
         
         "ruslan": ("Руслан", "Ну так ну сяк", "ruslan.jpg", 
                    [("Steam", "https://steamcommunity.com")],
