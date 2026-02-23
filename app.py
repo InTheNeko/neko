@@ -23,29 +23,31 @@ def show_page(page_name):
     friends_info = {
         # Теперь сюда можно вставлять ОБЫЧНЫЕ ссылки!
         "cat": ("Кот", "Самый главный, у него лапки.", "cat.jpg", 
-                [("Steam", "https://steamcommunity.com")], 
+                [("Steam", "https://steamcommunity.com/profiles/76561199122830516/")
+                 ("Валерьянка", "#")], 
                 "Заметка: Главный администратор. Любит спать.",
-                ["https://www.youtube.com", "https://www.youtube.com"]),
+                ["https://www.youtube.com/watch?v=dQw4w9WgXcQ", "https://www.youtube.com"]),
         
         "ruslan": ("Руслан", "Ну так ну сяк", "ruslan.jpg", 
-                   [("Steam", "https://steamcommunity.com")],
+                   [("Steam", "https://steamcommunity.com/profiles/76561199198583765/")],
                    "Заметка: да и так пойдёт", 
                    ["https://www.youtube.com"]), 
         
         "andrey": ("Андрей", "Постоянно ест", "andrey.jpg", 
-                   [("Steam", "https://steamcommunity.com")],
+                   [("Steam", "https://steamcommunity.com/profiles/76561198337510525/")
+                    ("я гей", "https://youareanidiot.cc")],
                    "Заметка: Если не отвечает, значит ушел на кухню.", []),
         
         "timokha": ("Тимофка", "Жаль что он с нами.", "timokha.jpg", 
-                    [("Steam", "https://steamcommunity.com")], 
-                    "Заметка: Опасен.", []),
+                    [("Steam", "https://steamcommunity.com/profiles/76561199054205841/")], 
+                    "Заметка: туда сюда.", []),
         
         "lesha": ("Лёша", "Гном всегда гном.", "lesha.jpg", 
-                  [("Steam", "https://steamcommunity.com")], 
+                  [("Steam", "https://steamcommunity.com/profiles/76561199096404881/")], 
                   "Заметка: Рост — 0.", []),
         
         "ibragim": ("Ибрагим", "Почти скоро 12.", "ibragim.jpg", 
-                    [("Steam", "https://steamcommunity.com")], 
+                    [("Steam", "https://steamcommunity.com/profiles/76561199556449044/")], 
                     "Заметка: Танки.", [])
     }
     
