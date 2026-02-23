@@ -5,128 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <style>
-        :root {
-            --accent: #00ffcc;
-            --video-accent: #ff0055;
-            --bg-dark: #050505;
-            --card-bg: rgba(25, 25, 28, 0.8);
-        }
-
+        :root { --accent: #00ffcc; --card: rgba(25, 25, 30, 0.9); }
         body {
-            margin: 0; font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0; font-family: 'Segoe UI', sans-serif;
             background: radial-gradient(circle at center, #1a1a2e 0%, #050505 100%);
-            color: #e0e0e0;
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            color: #eee; display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
-
-        .main-container { display: flex; gap: 30px; align-items: stretch; max-width: 900px; padding: 20px; }
-
-        /* Левая карточка */
+        .main-container { display: flex; gap: 30px; align-items: flex-start; max-width: 1100px; padding: 20px; }
         .card {
-            background: var(--card-bg); backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 35px; border-radius: 20px; width: 320px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            background: var(--card); backdrop-filter: blur(10px);
+            padding: 30px; border-radius: 20px; width: 320px;
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-
-        .player-photo { 
-            width: 100%; border-radius: 12px; margin-bottom: 20px; 
-            border: 2px solid var(--accent); box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
-        }
-
-        h1 { font-size: 28px; margin: 0 0 10px 0; color: #fff; }
-        .desc { font-size: 15px; color: #aaa; line-height: 1.5; margin-bottom: 20px; }
-
-        /* Кнопки меню и теги */
-        .links-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; }
-        .link-tag { 
-            background: rgba(255, 255, 255, 0.05); color: var(--accent); 
-            padding: 6px 14px; border: 1px solid rgba(0, 255, 204, 0.3); 
-            border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: bold; transition: 0.3s;
-        }
-        .link-tag:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
-
-        .menu-vertical { display: flex; flex-direction: column; gap: 10px; }
-        .btn { 
-            display: block; padding: 14px; background: rgba(255, 255, 255, 0.05); 
-            color: #fff; text-decoration: none; border-radius: 10px; 
-            font-weight: bold; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s;
-        }
-        .btn:hover { border-color: var(--accent); transform: translateY(-2px); background: rgba(255, 255, 255, 0.1); }
-        .btn-back { border: none; color: #666; font-size: 13px; }
-
-        /* Правый блок (Заметки) */
+        .player-photo { width: 100%; border-radius: 15px; border: 2px solid var(--accent); margin-bottom: 15px; }
         .notes-box {
-            background: rgba(0, 255, 204, 0.03); backdrop-filter: blur(10px);
-            border-left: 4px solid var(--accent); border-radius: 20px;
-            padding: 25px; width: 240px; display: flex; flex-direction: column;
-            animation: slideIn 0.6s ease-out;
+            background: var(--card); border-left: 4px solid var(--accent);
+            padding: 25px; border-radius: 20px; width: 480px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: fadeIn 0.5s ease;
         }
-
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-
-        .notes-box h3 { color: var(--accent); margin-top: 0; font-size: 18px; }
-        .notes-box p { color: #ccc; font-style: italic; line-height: 1.6; font-size: 14px; flex-grow: 1; }
-
-        /* Кнопка с видео в самом низу заметок */
-        .video-footer { margin-top: 20px; }
-        .btn-vid {
-            display: block; padding: 12px; background: var(--video-accent);
-            color: white; text-decoration: none; border-radius: 8px;
-            font-weight: bold; text-align: center; font-size: 12px;
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
-            animation: pulse 2s infinite;
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        h3 { color: var(--accent); margin-top: 0; font-size: 18px; }
+        p { color: #ccc; line-height: 1.6; font-style: italic; }
+        .video-container {
+            margin-top: 20px; position: relative; padding-bottom: 56.25%;
+            height: 0; overflow: hidden; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1); background: #000;
         }
-        .btn-vid:hover { transform: scale(1.05); filter: brightness(1.2); }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 0, 85, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .gallery-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
+        .nav-dot {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--accent);
+            color: var(--accent); padding: 6px 14px; border-radius: 8px;
+            cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 12px;
+        }
+        .nav-dot:hover { background: var(--accent); color: #000; box-shadow: 0 0 10px var(--accent); }
+        .active-dot { background: var(--accent) !important; color: #000 !important; }
+        .btn {
+            display: block; padding: 12px; margin-top: 10px;
+            background: rgba(255,255,255,0.05); color: #fff;
+            text-decoration: none; text-align: center; border-radius: 10px;
+            font-weight: bold; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+        }
+        .btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .link-tag {
+            display: inline-block; padding: 5px 12px; background: rgba(0,255,204,0.1);
+            color: var(--accent); border-radius: 15px; text-decoration: none;
+            font-size: 12px; margin-right: 5px; margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <div class="main-container">
-        <!-- Карточка профиля -->
         <div class="card">
             <h1>{{ title }}</h1>
             {% if not is_home %}
                 <img src="{{ url_for('static', filename='images/' + photo) }}" class="player-photo">
-                <p class="desc">{{ description }}</p>
-                <div class="links-container">
-                    {% for label, url in links %}
-                        <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
-                    {% endfor %}
-                </div>
+                <p>{{ description }}</p>
+                {% for label, url in links %}
+                    <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
+                {% endfor %}
+                <a href="/" class="btn" style="color: #666; font-size: 12px; margin-top: 20px; border:none;">← НАЗАД</a>
+            {% else %}
+                {% for name, link in buttons %}
+                    <a href="/{{ link }}" class="btn">{{ name }}</a>
+                {% endfor %}
             {% endif %}
-            
-            <div class="menu-vertical">
-                {% if is_home %}
-                    {% for name, link in buttons %}
-                        <a href="/{{ link }}" class="btn">{{ name }}</a>
-                    {% endfor %}
-                {% else %}
-                    <a href="/" class="btn btn-back">← НАЗАД В СПИСОК</a>
-                {% endif %}
-            </div>
         </div>
 
-        <!-- Блок заметок и видео -->
         {% if not is_home and note %}
         <div class="notes-box">
             <h3>Заметки</h3>
             <p>{{ note }}</p>
-            
-            {% if video_url %}
-            <div class="video-footer">
-                <a href="{{ video_url }}" target="_blank" class="btn-vid">
-                    🎬 МОМЕНТ
-                </a>
+
+            {% if video_list %}
+            <div style="margin-top: 30px;">
+                <h3 style="font-size: 14px; opacity: 0.8;">🎬 ГАЛЕРЕЯ МОМЕНТОВ:</h3>
+                <div class="video-container">
+                    <iframe id="mainPlayer" src="{{ video_list[0] }}" allowfullscreen></iframe>
+                </div>
+
+                {% if video_list|length > 1 %}
+                <div class="gallery-nav">
+                    {% for vid in video_list %}
+                        <button class="nav-dot {% if loop.first %}active-dot{% endif %}" 
+                                onclick="changeVideo('{{ vid }}', this)">
+                            {{ loop.index }}
+                        </button>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
             {% endif %}
         </div>
         {% endif %}
     </div>
+
+    <script>
+        function changeVideo(url, btn) {
+            document.getElementById('mainPlayer').src = url;
+            document.querySelectorAll('.nav-dot').forEach(b => b.classList.remove('active-dot'));
+            btn.classList.add('active-dot');
+        }
+    </script>
 </body>
 </html>
