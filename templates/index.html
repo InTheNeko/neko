@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        :root { --neon: #00ffcc; --bg: #050505; --card-bg: #0f0f11; }
+
+        body {
+            margin: 0; font-family: 'Inter', sans-serif;
+            background-color: var(--bg); color: #fff;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+        }
+
+        .card {
+            background: var(--card-bg); padding: 45px; border-radius: 30px;
+            width: 100%; max-width: 340px; text-align: center;
+            border: 1px solid #1f1f22; box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        h1 { 
+            font-size: 52px; font-weight: 900; letter-spacing: 10px; 
+            margin: 0 0 40px 0; color: var(--neon); text-transform: uppercase;
+        }
+
+        /* В профиле заголовок чуть меньше */
+        .profile-mode h1 { font-size: 34px; letter-spacing: 2px; margin-bottom: 25px; }
+
+        .player-photo {
+            width: 100%; height: 300px; object-fit: cover;
+            border-radius: 20px; margin-bottom: 30px; border: 1px solid #252528;
+        }
+
+        .desc { font-size: 16px; color: #888; line-height: 1.8; margin-bottom: 35px; }
+
+        .links-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
+        .link-tag {
+            padding: 14px; background: #161618; border: 1px solid #252528; color: #fff;
+            text-decoration: none; border-radius: 12px; font-weight: 600; transition: 0.3s;
+        }
+        .link-tag:hover { background: var(--neon); color: #000; transform: scale(1.02); }
+
+        .menu-vertical { display: flex; flex-direction: column; gap: 15px; }
+        .btn {
+            padding: 20px; background: #161618; border: 1px solid #222; color: #fff;
+            text-decoration: none; border-radius: 15px; font-weight: bold; transition: 0.3s;
+        }
+        .btn:hover { border-color: var(--neon); transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,255,204,0.1); }
+        
+        .btn-back { display: block; color: #444; margin-top: 25px; font-size: 11px; text-decoration: none; letter-spacing: 2px; }
+        .btn-back:hover { color: var(--neon); }
+    </style>
+</head>
+<body>
+
+    <div class="card {% if not is_home %}profile-mode{% endif %}">
+        <h1>{{ title }}</h1>
+
+        {% if not is_home %}
+            {% if photo %}
+                <img src="{{ url_for('static', filename='images/' + photo) }}" class="player-photo">
+            {% endif %}
+            <p class="desc">{{ description }}</p>
+            <div class="links-container">
+                {% for label, url in links %}
+                    <a href="{{ url }}" class="link-tag" target="_blank">{{ label }}</a>
+                {% endfor %}
+            </div>
+            <a href="/" class="btn-back">EXIT TO MENU</a>
+        {% else %}
+            <div class="menu-vertical">
+                {% for name, link in buttons %}
+                    <a href="/{{ link }}" class="btn">{{ name }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
