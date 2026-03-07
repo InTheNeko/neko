@@ -1,27 +1,30 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 
 app = Flask(__name__)
 
+# Настройка базы данных
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'drakon.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Обновленная модель: добавили likes
+# Модель данных с колонкой likes
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
     author = db.Column(db.String(50), default="Аноним")
     recipient = db.Column(db.String(50))
-    likes = db.Column(db.Integer, default=0) # Счётчик лайков
+    likes = db.Column(db.Integer, default=0) # Та самая колонка, из-за которой мог лечь сайт
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
 
+# Авто-создание базы при запуске
 with app.app_context():
     db.create_all()
 
+# Данные твоей банды
 friends_info = {
     "cat": ("Кот", "Просто самый лучший", "cat.jpg", [("Steam", "#")]),
     "ruslan": ("Руслан", "Гей и любит андрея", "ruslan.jpg", [("Steam", "#")]),
@@ -41,9 +44,13 @@ def show_page(page_name):
     data = friends_info.get(page_name)
     if data:
         name, desc, photo, links = data
+        # Загружаем заметки для конкретного профиля
         notes = Note.query.filter_by(recipient=page_name).order_by(Note.date_posted.desc()).all()
-        return render_template('index.html', title=name, description=desc, photo=photo, 
-                               links=links, is_home=False, notes=notes, page_id=page_name)
+        return render_template(
+            'index.html', 
+            title=name, description=desc, photo=photo, 
+            links=links, is_home=False, notes=notes, page_id=page_name
+        )
     return "404", 404
 
 @app.route('/add_note/<recipient>', methods=['POST'])
@@ -56,7 +63,6 @@ def add_note(recipient):
         db.session.commit()
     return redirect(url_for('show_page', page_name=recipient))
 
-# МАРШРУТ ДЛЯ ЛАЙКОВ
 @app.route('/like_note/<int:note_id>', methods=['POST'])
 def like_note(note_id):
     note = Note.query.get_or_404(note_id)
