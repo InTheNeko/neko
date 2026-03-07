@@ -1,11 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 
 app = Flask(__name__)
+app.secret_key = "drakon_secret_key" # Нужно для уведомлений (flash)
 
-# Настройка базы данных SQLite
+# Настройка базы
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'drakon.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -16,15 +17,13 @@ class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
     author = db.Column(db.String(50), default="Аноним")
-    recipient = db.Column(db.String(50))  # К какому профилю относится
-    likes = db.Column(db.Integer, default=0) # Колонка для лайков
+    recipient = db.Column(db.String(50))
+    likes = db.Column(db.Integer, default=0)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
 
-# Создаем базу данных
 with app.app_context():
     db.create_all()
 
-# Данные профилей
 friends_info = {
     "cat": ("Кот", "Просто самый лучший", "cat.jpg", [("Steam", "#")]),
     "ruslan": ("Руслан", "Гей и любит андрея", "ruslan.jpg", [("Steam", "#")]),
@@ -44,4 +43,6 @@ def show_page(page_name):
     data = friends_info.get(page_name)
     if data:
         name, desc, photo, links = data
-        notes = Note.query.filter_by
+        notes = Note.query.filter_by(recipient=page_name).order_by(Note.date_posted.desc()).all()
+        return render_template('index.html', title=name, description=desc, photo=photo, 
+                               links=links, is_home=False, notes=notes, page_id=page_name)
