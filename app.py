@@ -10,12 +10,12 @@ friends_list = [
 
 # Общая база данных друзей
 friends_info = {
-    "cat": ("Кот", "Главный архитектор хаоса. Обладает безграничной властью и самыми острыми когтями.", "cat.jpg", [("Steam", "https://steamcommunity.com")]),
-    "ruslan": ("Руслан", "Мастер тактических решений. Почти всегда в деле, когда нужно затащить.", "ruslan.jpg", [("Steam", "https://steamcommunity.com")]),
-    "andrey": ("Андрей", "Легенда состава. Его спокойствие в бою пугает врагов больше, чем оружие.", "andrey.jpg", [("Steam", "https://steamcommunity.com")]),
-    "timokha": ("Тимофка", "Стихийное бедствие. Никто не знает, чего от него ждать в следующую минуту.", "timokha.jpg", [("Steam", "https://steamcommunity.com")]),
-    "lesha": ("Лёша", "Надежный как швейцарские часы. Всегда там, где нужна поддержка.", "lesha.jpg", [("Steam", "https://steamcommunity.com")]),
-    "ibragim": ("Ибрагим", "Молодой талант с огромным потенциалом. Будущее этой команды.", "ibragim.jpg", [("Steam", "https://steamcommunity.com")])
+    "cat": ("Кот", "просто самый лучший", "cat.jpg", [("Steam", "https://steamcommunity.com")]),
+    "ruslan": ("Руслан", "гей и любит андрея", "ruslan.jpg", [("Steam", "https://steamcommunity.com")]),
+    "andrey": ("Андрей", "опять ест", "andrey.jpg", [("Steam", "https://steamcommunity.com")]),
+    "timokha": ("Тимофка", "жаль что он с нами", "timokha.jpg", [("Steam", "https://steamcommunity.com")]),
+    "lesha": ("Лёша", "низки не удаленький", "lesha.jpg", [("Steam", "https://steamcommunity.com")]),
+    "ibragim": ("Ибрагим", "почти 12 лет ", "ibragim.jpg", [("Steam", "https://steamcommunity.com")])
 }
 
 @app.route('/')
