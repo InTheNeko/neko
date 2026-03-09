@@ -2,33 +2,95 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #00f2ff; --bg: #0a0a0c; --border: rgba(255, 255, 255, 0.08); }
-        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; min-height: 100vh; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 50px; }
-        .btn-user { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 40px; border-radius: 20px; text-decoration: none; color: #fff; text-align: center; font-weight: 800; transition: 0.3s; text-transform: uppercase; display: block; }
-        .btn-user:hover { border-color: var(--accent); background: rgba(0, 242, 255, 0.1); transform: translateY(-5px); }
-        .layout { display: flex; gap: 50px; }
-        .side { flex: 0 0 320px; }
-        .pic { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 24px; border: 1px solid var(--border); background: #111; }
-        .inp { width: 100%; background: #111; border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 10px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
-        .btn-send { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: 10px; font-weight: 800; cursor: pointer; color: #000; }
-        
-        /* Кнопки соцсетей */
-        .social-box { display: flex; gap: 10px; margin-top: 20px; }
-        .soc-btn { flex: 1; padding: 10px; border-radius: 10px; text-decoration: none; text-align: center; font-weight: 700; font-size: 0.8rem; color: #fff; border: 1px solid var(--border); transition: 0.3s; }
-        .tg { background: #229ED933; border-color: #229ED9; }
-        .vk { background: #0077FF33; border-color: #0077FF; }
-        .soc-btn:hover { transform: scale(1.05); }
+        :root {
+            --bg-dark: #050509;
+            --bg-panel: rgba(16, 16, 24, 0.85);
+            --accent: #00f2ff;
+            --accent-glow: rgba(0, 242, 255, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --cyber-pink: #ff0055;
+        }
+
+        body {
+            margin: 0; background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% -20%, #1e1e3f 0%, var(--bg-dark) 80%);
+            color: #e0e0e0; font-family: 'Inter', sans-serif; min-height: 100vh;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+        /* ГЛАВНАЯ */
+        .main-title {
+            text-align: center; font-family: 'Orbitron'; font-size: clamp(2.5rem, 8vw, 4.5rem); 
+            letter-spacing: 15px; color: #fff; text-shadow: 0 0 20px var(--accent-glow); margin-bottom: 60px;
+        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .btn-user {
+            background: var(--bg-panel); border: 1px solid var(--border); padding: 40px; border-radius: 20px;
+            text-decoration: none; color: #fff; text-align: center; font-family: 'Orbitron'; font-weight: 700;
+            transition: 0.3s; backdrop-filter: blur(10px); text-transform: uppercase; letter-spacing: 2px;
+        }
+        .btn-user:hover { border-color: var(--accent); box-shadow: 0 0 25px var(--accent-glow); transform: translateY(-5px); }
+
+        /* ПРОФИЛЬ */
+        .layout { display: flex; gap: 40px; align-items: flex-start; }
+        .side { flex: 0 0 300px; }
+        .pic-container { 
+            width: 100%; aspect-ratio: 1/1; border-radius: 24px; overflow: hidden; 
+            border: 2px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+        }
+        .pic { width: 100%; height: 100%; object-fit: cover; }
+
+        .main-content { 
+            flex: 1; display: flex; gap: 30px; background: var(--bg-panel); 
+            padding: 35px; border-radius: 28px; border: 1px solid var(--border); backdrop-filter: blur(15px);
+        }
+        .bio-section { flex: 1; }
+        .video-section { flex: 0 0 320px; }
+
+        .video-wrapper {
+            width: 100%; border-radius: 18px; overflow: hidden; border: 1px solid var(--border);
+            background: #000; aspect-ratio: 9/16; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+        video { width: 100%; height: 100%; object-fit: cover; }
+
+        .user-name { font-family: 'Orbitron'; font-size: 2.5rem; margin: 0 0 20px 0; color: var(--accent); text-transform: uppercase; }
+        .user-bio { color: #b0b0b0; line-height: 1.8; white-space: pre-wrap; font-size: 1.1rem; border-left: 3px solid var(--accent); padding-left: 20px; }
+
+        .social-box { display: flex; gap: 10px; margin-top: 25px; }
+        .soc-btn { 
+            flex: 1; padding: 12px; border-radius: 10px; text-decoration: none; text-align: center; 
+            font-family: 'Orbitron'; font-size: 0.75rem; color: #fff; border: 1px solid var(--border); background: rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+        .soc-btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent-glow); }
+
+        .inp {
+            width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: #fff; 
+            padding: 12px; border-radius: 8px; margin-bottom: 10px; font-family: inherit;
+        }
+        .btn-save {
+            width: 100%; padding: 14px; background: var(--cyber-pink); border: none; 
+            border-radius: 8px; color: #fff; font-family: 'Orbitron'; font-weight: 700; cursor: pointer; transition: 0.3s;
+        }
+        .btn-save:hover { filter: brightness(1.2); box-shadow: 0 0 15px rgba(255, 0, 85, 0.4); }
+
+        @media (max-width: 1000px) {
+            .layout, .main-content { flex-direction: column; }
+            .side, .video-section { width: 100%; flex: none; }
+            .video-wrapper { aspect-ratio: 16/9; }
+        }
     </style>
 </head>
 <body>
 <div class="container">
     {% if is_home %}
-        <h1 style="text-align: center; font-family: 'Syncopate'; font-size: 3rem; letter-spacing: 10px;">DRAGON</h1>
+        <h1 class="main-title">DRAGON</h1>
         <div class="grid">
             {% for display_name, username in buttons %}
                 <a href="{{ url_for('show_page', page_name=username) }}" class="btn-user">{{ display_name }}</a>
@@ -37,35 +99,53 @@
     {% else %}
         <div class="layout">
             <div class="side">
-                <img src="{{ url_for('static', filename='images/' + current_photo) }}" class="pic" onerror="this.src='https://via.placeholder.com/300?text=No+Photo'">
+                <div class="pic-container">
+                    <img src="{{ url_for('static', filename='uploads/' + current_photo) }}" class="pic" onerror="this.src='https://via.placeholder.com/300?text=NO_IMAGE'">
+                </div>
                 
                 <div class="social-box">
-                    {% if user.tg_link %}
-                        <a href="{{ user.tg_link }}" target="_blank" class="soc-btn tg">TELEGRAM</a>
-                    {% endif %}
-                    {% if user.vk_link %}
-                        <a href="{{ user.vk_link }}" target="_blank" class="soc-btn vk">VKONTAKTE</a>
-                    {% endif %}
+                    {% if user.tg_link %}<a href="{{ user.tg_link }}" target="_blank" class="soc-btn">TELEGRAM</a>{% endif %}
+                    {% if user.vk_link %}<a href="{{ user.vk_link }}" target="_blank" class="soc-btn">VK</a>{% endif %}
                 </div>
 
-                <div style="margin-top: 30px; border-top: 1px solid #222; padding-top: 15px;">
-                    <details>
-                        <summary style="font-size: 0.7rem; cursor:pointer; color: #444;">⚙️ НАСТРОЙКИ</summary>
-                        <form action="{{ url_for('edit_profile', page_name=page_id) }}" method="POST" enctype="multipart/form-data" style="margin-top:10px;">
-                            <input type="password" name="admin_password" class="inp" placeholder="Пароль">
-                            <textarea name="description" class="inp" style="font-size:0.7rem; height: 60px;">{{ user.bio }}</textarea>
-                            <input type="text" name="tg_link" class="inp" placeholder="Ссылка на TG" value="{{ user.tg_link }}">
-                            <input type="text" name="vk_link" class="inp" placeholder="Ссылка на VK" value="{{ user.vk_link }}">
-                            <input type="file" name="photo" style="font-size:0.6rem; margin-bottom:10px;">
-                            <button type="submit" class="btn-send" style="padding:5px; font-size:0.7rem;">СОХРАНИТЬ</button>
+                <div style="margin-top: 25px;">
+                    <details style="font-size: 0.8rem;">
+                        <summary style="cursor: pointer; color: #555; font-family: 'Orbitron';">SETTINGS</summary>
+                        <form action="{{ url_for('edit_profile', page_name=page_id) }}" method="POST" enctype="multipart/form-data" style="margin-top:15px;">
+                            <input type="password" name="admin_password" class="inp" placeholder="Pass (1234)" required>
+                            <textarea name="description" class="inp" placeholder="Profile bio...">{{ user.bio }}</textarea>
+                            <input type="text" name="tg_link" class="inp" placeholder="TG Link" value="{{ user.tg_link }}">
+                            <input type="text" name="vk_link" class="inp" placeholder="VK Link" value="{{ user.vk_link }}">
+                            <label style="font-size: 0.7rem; color: #888;">Avatar:</label>
+                            <input type="file" name="photo" style="margin-bottom:10px; font-size:0.7rem; color: #444;">
+                            <label style="font-size: 0.7rem; color: #888;">Meme Video (MP4):</label>
+                            <input type="file" name="video" style="margin-bottom:15px; font-size:0.7rem; color: #444;">
+                            <button type="submit" class="btn-save">EXECUTE_UPDATE</button>
                         </form>
                     </details>
                 </div>
-                <a href="/" style="display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none;">← НАЗАД</a>
+                <a href="/" style="display:block; margin-top:25px; text-align:center; color:#444; text-decoration:none; font-family: 'Orbitron'; font-size:0.7rem; letter-spacing: 2px;">← EXIT_TO_HUB</a>
             </div>
-            <div class="main" style="flex:1;">
-                <h1 style="margin: 0; font-family: 'Syncopate'; color: var(--accent); text-transform: uppercase;">{{ user.display_name }}</h1>
-                <p style="color: #aaa; line-height: 1.6; font-size: 1.1rem; white-space: pre-wrap;">{{ user.bio }}</p>
+
+            <div class="main-content">
+                <div class="bio-section">
+                    <h1 class="user-name">{{ user.display_name }}</h1>
+                    <p class="user-bio">{{ user.bio }}</p>
+                </div>
+                
+                <div class="video-section">
+                    <div class="video-wrapper">
+                        {% if current_video %}
+                            <video controls loop muted autoplay>
+                                <source src="{{ url_for('static', filename='uploads/' + current_video) }}" type="video/mp4">
+                            </video>
+                        {% else %}
+                            <div style="color: #222; font-family: 'Orbitron'; font-size: 0.6rem; text-align: center; padding: 20px;">
+                                [EMPTY_VIDEO_SLOT]
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     {% endif %}
