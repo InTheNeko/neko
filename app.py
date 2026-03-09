@@ -4,9 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = "dragon_ultra_edition_2026"
+app.secret_key = "dragon_pro_v2_2026"
 
-# Настройка путей
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'drakon.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -16,7 +15,6 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
 
 db = SQLAlchemy(app)
-
 ADMIN_PASSWORD = "1234" 
 
 class UserProfile(db.Model):
@@ -27,7 +25,8 @@ class UserProfile(db.Model):
     photo = db.Column(db.String(100), default="default.jpg")
     video = db.Column(db.String(100), default="")
     tg_link = db.Column(db.String(100), default="")
-    vk_link = db.Column(db.String(100), default="")
+    steam_link = db.Column(db.String(100), default="")
+    discord_tag = db.Column(db.String(100), default="")
 
 with app.app_context():
     db.create_all()
@@ -54,12 +53,9 @@ def home():
 @app.route('/user/<page_name>')
 def show_page(page_name):
     user = UserProfile.query.filter_by(username=page_name).first_or_404()
-    
     photo_path = os.path.join(app.config['UPLOAD_FOLDER'], user.photo)
     photo_url = user.photo if user.photo and os.path.exists(photo_path) else "default.jpg"
-    
     video_url = user.video if user.video and os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], user.video)) else None
-    
     return render_template('index.html', user=user, current_photo=photo_url, 
                            current_video=video_url, is_home=False, page_id=page_name)
 
@@ -67,11 +63,11 @@ def show_page(page_name):
 def edit_profile(page_name):
     if request.form.get('admin_password') != ADMIN_PASSWORD:
         return "Ошибка: Неверный пароль!", 403
-    
     user = UserProfile.query.filter_by(username=page_name).first_or_404()
     user.bio = request.form.get('description')
     user.tg_link = request.form.get('tg_link')
-    user.vk_link = request.form.get('vk_link')
+    user.steam_link = request.form.get('steam_link')
+    user.discord_tag = request.form.get('discord_tag')
     
     photo_file = request.files.get('photo')
     if photo_file and photo_file.filename != '':
