@@ -13,55 +13,10 @@
         .btn-user:hover { border-color: var(--accent); background: rgba(0, 242, 255, 0.1); transform: translateY(-5px); }
         .layout { display: flex; gap: 50px; }
         .side { flex: 0 0 320px; }
-        .pic { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 24px; border: 1px solid var(--border); }
+        .pic { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 24px; border: 1px solid var(--border); background: #111; }
         .wall { margin-top: 40px; background: rgba(255,255,255,0.02); padding: 30px; border-radius: 20px; border: 1px solid var(--border); }
         .inp { width: 100%; background: #111; border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 10px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
         .btn-send { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: 10px; font-weight: 800; cursor: pointer; }
         .note { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; margin-top: 15px; border-left: 4px solid var(--accent); }
         .note-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
-        .like-btn { background: none; border: 1px solid var(--border); color: #fff; padding: 6px 14px; border-radius: 20px; cursor: pointer; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    {% if is_home %}
-        <h1 style="text-align: center; font-family: 'Syncopate'; font-size: 3rem;">DRAGON</h1>
-        <div class="grid">
-            {% for name, link in buttons %}
-                <a href="{{ url_for('show_page', page_name=link) }}" class="btn-user">{{ name }}</a>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="layout">
-            <div class="side">
-                <img src="{{ url_for('static', filename='images/' + user.photo) }}" class="pic">
-                
-                <div style="margin-top: 30px; opacity: 0.3;">
-                    <details>
-                        <summary style="font-size: 0.7rem; cursor:pointer;">⚙️ ПАНЕЛЬ УПРАВЛЕНИЯ</summary>
-                        <form action="{{ url_for('edit_profile', page_name=page_id) }}" method="POST" enctype="multipart/form-data" style="margin-top:10px;">
-                            <input type="password" name="admin_password" class="inp" placeholder="Пароль">
-                            <textarea name="description" class="inp" style="font-size:0.7rem;">{{ user.bio }}</textarea>
-                            <input type="file" name="photo" style="font-size:0.6rem; margin-bottom:10px;">
-                            <button type="submit" class="btn-send" style="padding:5px; font-size:0.7rem;">ОБНОВИТЬ</button>
-                        </form>
-                    </details>
-                </div>
-
-                <a href="/" style="display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none;">← НАЗАД</a>
-            </div>
-            <div class="main" style="flex:1;">
-                <h1 style="margin: 0; font-family: 'Syncopate'; color: var(--accent);">{{ user.display_name }}</h1>
-                <p style="color: #aaa; line-height: 1.6;">{{ user.bio }}</p>
-
-                <div class="wall">
-                    <form action="{{ url_for('add_note', recipient=page_id) }}" method="POST">
-                        <input type="text" name="author" class="inp" placeholder="Твой ник">
-                        <textarea name="content" class="inp" placeholder="Оставь сообщение..." rows="3" required></textarea>
-                        <button type="submit" class="btn-send">ОТПРАВИТЬ</button>
-                    </form>
-
-                    {% for note in notes %}
-                        <div class="note">
-                            <div style="font-size: 0.8rem
+        .like-btn { background: none; border: 1px solid var(--border); color

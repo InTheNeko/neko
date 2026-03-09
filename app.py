@@ -5,28 +5,33 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-app.secret_key = "dragon_final_key_2026"
+app.secret_key = "dragon_ultra_safe_2026"
 
-# Настройки базы данных и папки для фото
+# Пути и База данных
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'drakon.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = os.path.join('static', 'images')
+app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'static', 'images')
+
+# Создаем папку для картинок, если её нет
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
 
 db = SQLAlchemy(app)
 
-# Секретный пароль для редактирования профилей
-ADMIN_PASSWORD = "1234" 
+# Пароли
+ADMIN_PASSWORD = "1234" # Пароль для редактирования профилей
+DELETE_PASSWORD = "1234" # Пароль для удаления сообщений
 
-# Таблица профилей (сохраняется навсегда)
+# ТАБЛИЦА 1: ПРОФИЛИ (Сохраняются здесь)
 class UserProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    display_name = db.Column(db.String(50))
+    display_name = db.Column(db.String(100))
     bio = db.Column(db.String(500))
-    photo = db.Column(db.String(100))
+    photo = db.Column(db.String(100), default="default.jpg")
 
-# Таблица заметок
+# ТАБЛИЦА 2: ЗАМЕТКИ
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
@@ -35,24 +40,27 @@ class Note(db.Model):
     likes = db.Column(db.Integer, default=0)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
 
-# Создание базы и начальное заполнение
+# Инициализация базы данных
 with app.app_context():
     db.create_all()
     
+    # Стартовый состав (создается один раз)
     initial_squad = {
-        "cat": ("Кот", "Просто самый лучший", "cat.jpg"),
-        "ruslan": ("Руслан", "Мастер тактических решений", "ruslan.jpg"),
-        "andrey": ("Андрей", "Легенда состава. Спокойствие и мощь.", "andrey.jpg"),
-        "timokha": ("Тимофка", "Всегда в деле", "timokha.jpg"),
-        "lesha": ("Лёша", "Низкий не удаленький", "lesha.jpg"),
-        "ibragim": ("Ибрагим", "Молодой талант", "ibragim.jpg")
+        "cat": ("Кот", "Архитектор хаоса"),
+        "ruslan": ("Руслан", "Мастер тактических решений"),
+        "andrey": ("Андрей", "Легенда состава"),
+        "timokha": ("Тимоха", "Всегда в деле"),
+        "lesha": ("Лёша", "Низкий не удаленький"),
+        "ibragim": ("Ибрагим", "Молодой талант")
     }
 
-    for nick, (name, bio, img) in initial_squad.items():
+    for nick, (name, bio) in initial_squad.items():
         if not UserProfile.query.filter_by(username=nick).first():
-            new_p = UserProfile(username=nick, display_name=name, bio=bio, photo=img)
+            new_p = UserProfile(username=nick, display_name=name, bio=bio, photo=f"{nick}.jpg")
             db.session.add(new_p)
     db.session.commit()
+
+# --- МАРШРУТЫ ---
 
 @app.route('/')
 def home():
@@ -64,20 +72,25 @@ def home():
 def show_page(page_name):
     user = UserProfile.query.filter_by(username=page_name).first_or_404()
     notes = Note.query.filter_by(recipient=page_name).order_by(Note.date_posted.desc()).all()
-    return render_template('index.html', user=user, title=user.display_name, 
+    
+    # Проверка: существует ли файл аватарки на диске
+    photo_path = os.path.join(app.config['UPLOAD_FOLDER'], user.photo)
+    photo_url = user.photo if os.path.exists(photo_path) else "default.jpg"
+    
+    return render_template('index.html', user=user, current_photo=photo_url,
                            is_home=False, notes=notes, page_id=page_name)
 
 @app.route('/edit_profile/<page_name>', methods=['POST'])
 def edit_profile(page_name):
     if request.form.get('admin_password') != ADMIN_PASSWORD:
-        return "Неверный пароль!", 403
+        return "Ошибка: Неверный пароль!", 403
     
     user = UserProfile.query.filter_by(username=page_name).first_or_404()
     user.bio = request.form.get('description')
     
     file = request.files.get('photo')
     if file and file.filename != '':
-        filename = secure_filename(f"upd_{page_name}.jpg")
+        filename = secure_filename(f"avatar_{page_name}.jpg")
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         user.photo = filename
         
@@ -98,11 +111,11 @@ def like_note(note_id):
     note = Note.query.get_or_404(note_id)
     note.likes += 1
     db.session.commit()
-    return redirect(url_for('show_page', page_name=note.recipient))
+    return redirect(request.referrer)
 
 @app.route('/delete/<int:note_id>', methods=['POST'])
 def delete_note(note_id):
-    if request.form.get('password') == "1234":
+    if request.form.get('password') == DELETE_PASSWORD:
         note = Note.query.get_or_404(note_id)
         db.session.delete(note)
         db.session.commit()
