@@ -1,29 +1,29 @@
+import os
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
-from datetime import datetime
-import os
 
 app = Flask(__name__)
-app.secret_key = "dragon_ultra_safe_2026"
+app.secret_key = "dragon_safe_key_2026"
 
-# Пути и База данных
+# Настройка путей (Критично для PythonAnywhere)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'drakon.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'static', 'images')
 
-# Создаем папку для картинок, если её нет
+# Создаем папку для фото, если её нет
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
 
 db = SQLAlchemy(app)
 
 # Пароли
-ADMIN_PASSWORD = "1234" # Пароль для редактирования профилей
-DELETE_PASSWORD = "1234" # Пароль для удаления сообщений
+ADMIN_PASSWORD = "1234" 
+DELETE_PASSWORD = "1234"
 
-# ТАБЛИЦА 1: ПРОФИЛИ (Сохраняются здесь)
+# ТАБЛИЦА ПРОФИЛЕЙ
 class UserProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -31,7 +31,7 @@ class UserProfile(db.Model):
     bio = db.Column(db.String(500))
     photo = db.Column(db.String(100), default="default.jpg")
 
-# ТАБЛИЦА 2: ЗАМЕТКИ
+# ТАБЛИЦА ЗАМЕТОК
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
@@ -40,11 +40,11 @@ class Note(db.Model):
     likes = db.Column(db.Integer, default=0)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
 
-# Инициализация базы данных
+# Инициализация базы
 with app.app_context():
     db.create_all()
     
-    # Стартовый состав (создается один раз)
+    # Список друзей для авто-заполнения
     initial_squad = {
         "cat": ("Кот", "Архитектор хаоса"),
         "ruslan": ("Руслан", "Мастер тактических решений"),
@@ -60,11 +60,12 @@ with app.app_context():
             db.session.add(new_p)
     db.session.commit()
 
-# --- МАРШРУТЫ ---
+# --- РОУТЫ ---
 
 @app.route('/')
 def home():
     profiles = UserProfile.query.all()
+    # Передаем список кортежей (Имя, Ссылка)
     buttons = [(p.display_name, p.username) for p in profiles]
     return render_template('index.html', buttons=buttons, title="DRAGON SQUAD", is_home=True)
 
@@ -73,7 +74,7 @@ def show_page(page_name):
     user = UserProfile.query.filter_by(username=page_name).first_or_404()
     notes = Note.query.filter_by(recipient=page_name).order_by(Note.date_posted.desc()).all()
     
-    # Проверка: существует ли файл аватарки на диске
+    # Проверка физического наличия фото
     photo_path = os.path.join(app.config['UPLOAD_FOLDER'], user.photo)
     photo_url = user.photo if os.path.exists(photo_path) else "default.jpg"
     
