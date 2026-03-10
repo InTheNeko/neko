@@ -34,7 +34,7 @@ with app.app_context():
         "cat": ("Кот", "Архитектор хаоса"),
         "ruslan": ("Руслан", "Мастер тактических решений"),
         "andrey": ("Андрей", "Легенда состава"),
-        "timokha": ("Тимоха", "Всегда в деле"),
+        "timokha": ("Тимофка", "Всегда в деле"),
         "lesha": ("Лёша", "Низкий не удаленький"),
         "ibragim": ("Ибрагим", "Молодой талант")
     }
@@ -48,7 +48,7 @@ with app.app_context():
 def home():
     profiles = UserProfile.query.all()
     buttons = [(p.display_name, p.username) for p in profiles]
-    return render_template('index.html', buttons=buttons, title="DRAGON SQUAD", is_home=True)
+    return render_template('index.html', buttons=buttons, title="Drakonchik SQUAD", is_home=True)
 
 @app.route('/user/<page_name>')
 def show_page(page_name):
