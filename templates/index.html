@@ -6,35 +6,58 @@
     <title>{{ title if is_home else user.display_name }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #00f2ff; --bg: #050508; --panel: #0f0f13; }
-        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; }
-        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        :root { --accent: #00f2ff; --bg: #050508; --panel: #0f0f13; --card-bg: #121217; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+        /* --- ГЛАВНАЯ СТРАНИЦА (ХАБ) --- */
+        .hub-title { text-align: center; font-family: 'Orbitron'; letter-spacing: 12px; margin-bottom: 50px; color: var(--accent); text-shadow: 0 0 20px rgba(0,242,255,0.3); }
+        .user-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
         
-        .hub-title { text-align: center; font-family: 'Orbitron'; letter-spacing: 10px; margin-bottom: 40px; color: var(--accent); }
-        .user-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .user-card { background: var(--panel); padding: 30px; border-radius: 15px; text-decoration: none; color: #fff; text-align: center; font-family: 'Orbitron'; border: 1px solid #1a1a1a; transition: 0.3s; }
-        .user-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .user-card { 
+            background: var(--card-bg); border: 1px solid #1a1a1a; border-radius: 24px; padding: 40px 20px;
+            text-decoration: none; text-align: center; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center; position: relative; overflow: hidden;
+        }
+        .user-card:hover { transform: translateY(-12px); border-color: var(--accent); box-shadow: 0 15px 40px rgba(0,242,255,0.15); }
+        .card-avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 2px solid #222; transition: 0.3s; }
+        .user-card:hover .card-avatar { border-color: var(--accent); transform: scale(1.05); }
+        .card-name { font-family: 'Orbitron'; font-size: 1.3rem; color: #fff; margin-bottom: 5px; }
+        .card-status { font-size: 0.65rem; color: #444; text-transform: uppercase; letter-spacing: 2px; }
+        .user-card:hover .card-status { color: var(--accent); }
 
-        .profile-header { display: flex; gap: 30px; align-items: center; background: var(--panel); padding: 30px; border-radius: 20px; border: 1px solid #1a1a1a; }
-        .avatar { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+        /* --- СТРАНИЦА ПРОФИЛЯ --- */
+        .profile-header { display: flex; gap: 35px; align-items: center; background: var(--panel); padding: 40px; border-radius: 30px; border: 1px solid #1a1a1a; }
+        .p-avatar { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); box-shadow: 0 0 25px rgba(0,242,255,0.2); }
         
-        .content-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .nav-btn { background: var(--panel); border: 1px solid #1a1a1a; color: #fff; padding: 20px; border-radius: 15px; cursor: pointer; font-family: 'Orbitron'; transition: 0.3s; text-align: center; }
-        .nav-btn:hover { background: #1a1a1a; border-color: var(--accent); }
+        .content-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+        .nav-btn { background: var(--panel); border: 1px solid #1a1a1a; color: #fff; padding: 25px; border-radius: 20px; cursor: pointer; font-family: 'Orbitron'; transition: 0.3s; font-size: 0.9rem; letter-spacing: 2px; }
+        .nav-btn:hover { background: #1a1a1a; border-color: var(--accent); color: var(--accent); }
 
-        .display-area { margin-top: 25px; display: none; background: var(--panel); padding: 20px; border-radius: 20px; border: 1px solid #1a1a1a; }
-        .video-item { width: 100%; border-radius: 12px; margin-bottom: 20px; border: 1px solid #222; overflow: hidden; }
-        video { width: 100%; display: block; }
+        .display-area { margin-top: 30px; display: none; background: var(--panel); padding: 25px; border-radius: 25px; border: 1px solid #1a1a1a; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-        .gallery-grid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; }
+        .video-list { display: flex; flex-direction: column; gap: 20px; }
+        video { width: 100%; border-radius: 15px; border: 1px solid #222; }
 
-        .settings-trigger { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: #000; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; box-shadow: 0 0 15px rgba(0,242,255,0.4); z-index: 1000; }
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 2000; }
-        .modal-content { background: #111; padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; border: 1px solid var(--accent); max-height: 85vh; overflow-y: auto; }
-        .inp { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
-        .section-label { font-size: 0.75rem; color: var(--accent); font-family: 'Orbitron'; margin: 15px 0 5px; display: block; }
-        .save-btn { width: 100%; padding: 15px; background: var(--accent); border: none; border-radius: 8px; font-family: 'Orbitron'; cursor: pointer; font-weight: bold; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+        .gallery-grid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 15px; transition: 0.3s; }
+        .gallery-grid img:hover { transform: scale(1.03); }
+
+        /* --- НАСТРОЙКИ (МОДАЛКА) --- */
+        .settings-trigger { position: fixed; bottom: 30px; right: 30px; background: var(--accent); color: #000; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; font-size: 1.5rem; box-shadow: 0 5px 20px rgba(0,242,255,0.4); z-index: 1000; transition: 0.3s; }
+        .settings-trigger:hover { transform: rotate(90deg) scale(1.1); }
+        
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(10px); }
+        .modal-content { background: #0a0a0d; padding: 40px; border-radius: 30px; width: 90%; max-width: 550px; border: 1px solid var(--accent); max-height: 85vh; overflow-y: auto; }
+        .inp { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-sizing: border-box; font-family: inherit; font-size: 0.9rem; }
+        .save-btn { width: 100%; padding: 20px; background: var(--accent); border: none; border-radius: 12px; font-family: 'Orbitron'; cursor: pointer; font-weight: bold; color: #000; font-size: 1rem; }
+        
+        @media (max-width: 700px) { 
+            .profile-header { flex-direction: column; text-align: center; padding: 30px; }
+            .p-avatar { width: 140px; height: 140px; }
+            .user-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -44,18 +67,23 @@
         <h1 class="hub-title">DRAKONCHIK</h1>
         <div class="user-grid">
             {% for p in profiles %}
-                <a href="{{ url_for('show_page', page_name=p.username) }}" class="user-card">{{ p.display_name }}</a>
+                <a href="{{ url_for('show_page', page_name=p.username) }}" class="user-card">
+                    <img src="{{ url_for('static', filename='uploads/' + p.photo) }}" class="card-avatar" onerror="this.src='https://via.placeholder.com/150?text=?'">
+                    <div class="card-name">{{ p.display_name }}</div>
+                    <div class="card-status">Профиль бойца</div>
+                </a>
             {% endfor %}
         </div>
     {% else %}
         <div class="profile-header">
-            <img src="{{ url_for('static', filename='uploads/' + user.photo) }}" class="avatar" onerror="this.src='https://via.placeholder.com/150'">
+            <img src="{{ url_for('static', filename='uploads/' + user.photo) }}" class="p-avatar" onerror="this.src='https://via.placeholder.com/200'">
             <div>
-                <h1 style="font-family:'Orbitron'; color:var(--accent); margin:0;">{{ user.display_name }}</h1>
-                <p style="color:#999;">{{ user.bio }}</p>
-                <div style="display:flex; gap:15px;">
-                    {% if user.tg_link %}<a href="{{ user.tg_link }}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:bold;">TG</a>{% endif %}
-                    {% if user.steam_link %}<a href="{{ user.steam_link }}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:bold;">STEAM</a>{% endif %}
+                <h1 style="font-family:'Orbitron'; color:var(--accent); margin:0; font-size: 2.5rem;">{{ user.display_name }}</h1>
+                <p style="color:#ccc; font-size: 1.1rem; line-height: 1.6;">{{ user.bio }}</p>
+                <div style="display:flex; gap:20px; margin-top: 15px;">
+                    {% if user.tg_link %}<a href="{{ user.tg_link }}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:bold; font-size: 0.8rem; letter-spacing: 1px;">TELEGRAM</a>{% endif %}
+                    {% if user.steam_link %}<a href="{{ user.steam_link }}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:bold; font-size: 0.8rem; letter-spacing: 1px;">STEAM</a>{% endif %}
+                    {% if user.discord_tag %}<span style="color:#555; font-size: 0.8rem;">DS: {{ user.discord_tag }}</span>{% endif %}
                 </div>
             </div>
         </div>
@@ -67,13 +95,13 @@
 
         <div id="video-area" class="display-area">
             {% if videos %}
-                {% for vid in videos %}
-                    <div class="video-item">
-                        <video controls loop muted><source src="{{ url_for('static', filename='uploads/' + vid) }}" type="video/mp4"></video>
-                    </div>
-                {% endfor %}
+                <div class="video-list">
+                    {% for v in videos %}
+                        <video controls loop muted><source src="{{ url_for('static', filename='uploads/' + v) }}" type="video/mp4"></video>
+                    {% endfor %}
+                </div>
             {% else %}
-                <p style="text-align:center; color:#444;">ВИДЕО НЕТ</p>
+                <p style="text-align:center; color:#444; font-family:'Orbitron';">АРХИВ ПУСТ</p>
             {% endif %}
         </div>
 
@@ -85,39 +113,46 @@
                     {% endfor %}
                 </div>
             {% else %}
-                <p style="text-align:center; color:#444;">ФОТО НЕТ</p>
+                <p style="text-align:center; color:#444; font-family:'Orbitron';">ГАЛЕРЕЯ ПУСТА</p>
             {% endif %}
         </div>
 
         <button class="settings-trigger" onclick="openSettings()">⚙</button>
-        <a href="/" style="display:block; text-align:center; margin-top:40px; color:#444; text-decoration:none;">← В ХАБ</a>
+        <a href="/" style="display:block; text-align:center; margin-top:50px; color:#444; text-decoration:none; font-family:'Orbitron'; font-size: 0.7rem; letter-spacing: 2px;">← НАЗАД В ХАБ</a>
     {% endif %}
 </div>
 
 {% if not is_home %}
 <div id="settingsModal" class="modal">
     <div class="modal-content">
-        <h2 style="font-family:'Orbitron'; color:var(--accent); margin-top:0;">НАСТРОЙКИ</h2>
+        <h2 style="font-family:'Orbitron'; color:var(--accent); margin-top:0; letter-spacing: 3px;">settings.sys</h2>
         <form action="{{ url_for('edit_profile', page_name=page_id) }}" method="POST" enctype="multipart/form-data">
-            <input type="password" name="admin_password" class="inp" placeholder="ПАРОЛЬ (1234)" required>
+            <input type="password" name="admin_password" class="inp" placeholder="КОД ДОСТУПА (1234)" required>
             
-            <span class="section-label">Текст</span>
-            <textarea name="bio" class="inp" style="height:80px;">{{ user.bio }}</textarea>
-            <input type="text" name="tg" class="inp" placeholder="Telegram ссылка" value="{{ user.tg_link }}">
-            <input type="text" name="steam" class="inp" placeholder="Steam ссылка" value="{{ user.steam_link }}">
+            <p style="color: var(--accent); font-family: 'Orbitron'; font-size: 0.7rem; margin-bottom: 5px;">ИНФОРМАЦИЯ</p>
+            <textarea name="bio" class="inp" placeholder="О себе...">{{ user.bio }}</textarea>
+            <input type="text" name="tg" class="inp" placeholder="Telegram URL" value="{{ user.tg_link }}">
+            <input type="text" name="steam" class="inp" placeholder="Steam URL" value="{{ user.steam_link }}">
             <input type="text" name="discord" class="inp" placeholder="Discord Тэг" value="{{ user.discord_tag }}">
 
-            <span class="section-label">Медиа (Можно выбрать несколько)</span>
-            <label style="font-size:0.7rem;">Аватар:</label> <input type="file" name="photo" class="inp">
-            <label style="font-size:0.7rem;">Добавить Видео (MP4):</label> <input type="file" name="video" class="inp" multiple>
-            <label style="font-size:0.7rem;">Добавить Фото:</label> <input type="file" name="gallery" class="inp" multiple>
+            <p style="color: var(--accent); font-family: 'Orbitron'; font-size: 0.7rem; margin-bottom: 5px;">МЕДИА-ДАННЫЕ</p>
+            <label style="font-size:0.7rem; color:#666;">Аватар профиля:</label> 
+            <input type="file" name="photo" class="inp">
+            
+            <label style="font-size:0.7rem; color:#666;">Загрузить Видео (можно несколько):</label> 
+            <input type="file" name="video" class="inp" multiple>
+            
+            <label style="font-size:0.7rem; color:#666;">Загрузить Фото в галерею (можно несколько):</label> 
+            <input type="file" name="gallery" class="inp" multiple>
 
-            <span class="section-label" style="color:#f05;">Очистка</span>
-            <label><input type="checkbox" name="clear_video"> Удалить все видео</label><br>
-            <label><input type="checkbox" name="clear_gallery"> Удалить все фото</label>
+            <div style="background: rgba(255,0,85,0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,0,85,0.2); margin-top: 10px;">
+                <p style="color:#ff0055; font-family:'Orbitron'; font-size:0.7rem; margin:0 0 10px 0;">ОЧИСТКА ДАННЫХ</p>
+                <label style="font-size:0.8rem; display:block; margin-bottom:5px;"><input type="checkbox" name="clear_video"> Удалить все видео</label>
+                <label style="font-size:0.8rem;"><input type="checkbox" name="clear_gallery"> Очистить фото-галерею</label>
+            </div>
 
-            <button type="submit" class="save-btn" style="margin-top:20px;">СОХРАНИТЬ</button>
-            <button type="button" class="inp" onclick="closeSettings()" style="background:#222; border:none; margin-top:10px;">Отмена</button>
+            <button type="submit" class="save-btn" style="margin-top:25px;">ПРИМЕНИТЬ ИЗМЕНЕНИЯ</button>
+            <button type="button" class="inp" onclick="closeSettings()" style="margin-top:10px; border:none; background:#1a1a1a;">ОТМЕНА</button>
         </form>
     </div>
 </div>
@@ -131,6 +166,7 @@
     }
     function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
     function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+    window.onclick = function(e) { if(e.target == document.getElementById('settingsModal')) closeSettings(); }
 </script>
 </body>
 </html>
