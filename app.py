@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = "dragon_pro_delete_fix"
+app.secret_key = "dragon_russian_edition_2026"
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'drakon.db')
@@ -31,12 +31,24 @@ class UserProfile(db.Model):
 
 with app.app_context():
     db.create_all()
+    # Обновленный список имен
+    squad = {
+        "cat":"Кот", 
+        "ruslan":"Руслан", 
+        "andrey":"Андрей", 
+        "timokha":"Тимофка", # Изменено здесь
+        "lesha":"Лёша", 
+        "ibragim":"Ибрагим"
+    }
+    for nick, name in squad.items():
+        if not UserProfile.query.filter_by(username=nick).first():
+            db.session.add(UserProfile(username=nick, display_name=name, bio="Описание пока пустое..."))
+    db.session.commit()
 
 @app.route('/')
 def home():
     profiles = UserProfile.query.all()
-    buttons = [(p.display_name, p.username) for p in profiles]
-    return render_template('index.html', buttons=buttons, title="DRAGON SQUAD", is_home=True)
+    return render_template('index.html', profiles=profiles, is_home=True, title="DRAKONCHIK")
 
 @app.route('/user/<page_name>')
 def show_page(page_name):
@@ -47,50 +59,40 @@ def show_page(page_name):
 @app.route('/edit_profile/<page_name>', methods=['POST'])
 def edit_profile(page_name):
     if request.form.get('admin_password') != ADMIN_PASSWORD:
-        return "Ошибка: Неверный пароль!", 403
-    
+        return "Неверный пароль", 403
     user = UserProfile.query.filter_by(username=page_name).first_or_404()
     
-    # Удаление видео
-    if request.form.get('delete_video') == '1':
-        user.video = ""
+    if request.form.get('clear_video'): user.video = ""
+    if request.form.get('clear_gallery'): user.gallery = ""
     
-    # Очистка галереи
-    if request.form.get('clear_gallery') == '1':
-        user.gallery = ""
+    user.bio = request.form.get('bio', user.bio)
+    user.tg_link = request.form.get('tg', user.tg_link)
+    user.steam_link = request.form.get('steam', user.steam_link)
+    user.discord_tag = request.form.get('discord', user.discord_tag)
 
-    # Обновление текста
-    if 'description' in request.form:
-        user.bio = request.form.get('description')
-        user.tg_link = request.form.get('tg_link')
-        user.steam_link = request.form.get('steam_link')
-        user.discord_tag = request.form.get('discord_tag')
-    
-    # Загрузка новых файлов
-    photo_file = request.files.get('photo')
-    if photo_file and photo_file.filename != '':
-        p_filename = secure_filename(f"avatar_{page_name}_{photo_file.filename}")
-        photo_file.save(os.path.join(app.config['UPLOAD_FOLDER'], p_filename))
-        user.photo = p_filename
+    f_photo = request.files.get('photo')
+    if f_photo and f_photo.filename:
+        name = secure_filename(f"at_{page_name}_{f_photo.filename}")
+        f_photo.save(os.path.join(app.config['UPLOAD_FOLDER'], name))
+        user.photo = name
 
-    video_file = request.files.get('video')
-    if video_file and video_file.filename != '':
-        v_filename = secure_filename(f"video_{page_name}_{video_file.filename}")
-        video_file.save(os.path.join(app.config['UPLOAD_FOLDER'], v_filename))
-        user.video = v_filename
+    f_video = request.files.get('video')
+    if f_video and f_video.filename:
+        name = secure_filename(f"vi_{page_name}_{f_video.filename}")
+        f_video.save(os.path.join(app.config['UPLOAD_FOLDER'], name))
+        user.video = name
 
-    gallery_files = request.files.getlist('gallery_photos')
-    new_photos = []
-    for f in gallery_files:
-        if f and f.filename != '':
-            g_filename = secure_filename(f"gal_{page_name}_{f.filename}")
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], g_filename))
-            new_photos.append(g_filename)
-    
-    if new_photos:
-        current_gal = [img for img in user.gallery.split(',') if img] if user.gallery else []
-        user.gallery = ",".join(current_gal + new_photos)
-        
+    f_gallery = request.files.getlist('gallery')
+    new_imgs = []
+    for f in f_gallery:
+        if f.filename:
+            name = secure_filename(f"ga_{page_name}_{f.filename}")
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], name))
+            new_imgs.append(name)
+    if new_imgs:
+        old = user.gallery.split(',') if user.gallery else []
+        user.gallery = ",".join(old + new_imgs)
+
     db.session.commit()
     return redirect(url_for('show_page', page_name=page_name))
 
