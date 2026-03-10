@@ -127,7 +127,7 @@
     <div class="modal-content">
         <h2 style="font-family:'Orbitron'; color:var(--accent); margin-top:0; letter-spacing: 3px;">settings.sys</h2>
         <form action="{{ url_for('edit_profile', page_name=page_id) }}" method="POST" enctype="multipart/form-data">
-            <input type="password" name="admin_password" class="inp" placeholder="КОД ДОСТУПА (1234)" required>
+            <input type="password" name="admin_password" class="inp" placeholder="" required>
             
             <p style="color: var(--accent); font-family: 'Orbitron'; font-size: 0.7rem; margin-bottom: 5px;">ИНФОРМАЦИЯ</p>
             <textarea name="bio" class="inp" placeholder="О себе...">{{ user.bio }}</textarea>

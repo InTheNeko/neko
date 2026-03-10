@@ -16,7 +16,7 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
 
 db = SQLAlchemy(app)
-ADMIN_PASSWORD = "1234" 
+ADMIN_PASSWORD = "322" 
 
 class UserProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
