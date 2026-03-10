@@ -10,33 +10,31 @@
         body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; }
         .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
         
-        .hub-title { text-align: center; font-family: 'Orbitron'; letter-spacing: 10px; margin-bottom: 40px; color: var(--accent); text-transform: uppercase; }
+        .hub-title { text-align: center; font-family: 'Orbitron'; letter-spacing: 10px; margin-bottom: 40px; color: var(--accent); }
         .user-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
         .user-card { background: var(--panel); padding: 30px; border-radius: 15px; text-decoration: none; color: #fff; text-align: center; font-family: 'Orbitron'; border: 1px solid #1a1a1a; transition: 0.3s; }
         .user-card:hover { border-color: var(--accent); transform: translateY(-3px); }
 
         .profile-header { display: flex; gap: 30px; align-items: center; background: var(--panel); padding: 30px; border-radius: 20px; border: 1px solid #1a1a1a; }
         .avatar { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
-        .name { font-family: 'Orbitron'; font-size: 2rem; margin: 0; color: var(--accent); }
         
         .content-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .nav-btn { background: var(--panel); border: 1px solid #1a1a1a; color: #fff; padding: 20px; border-radius: 15px; cursor: pointer; font-family: 'Orbitron'; transition: 0.3s; text-align: center; }
         .nav-btn:hover { background: #1a1a1a; border-color: var(--accent); }
 
         .display-area { margin-top: 25px; display: none; background: var(--panel); padding: 20px; border-radius: 20px; border: 1px solid #1a1a1a; }
+        .video-item { width: 100%; border-radius: 12px; margin-bottom: 20px; border: 1px solid #222; overflow: hidden; }
+        video { width: 100%; display: block; }
+
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
         .gallery-grid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; }
-        video { width: 100%; border-radius: 10px; }
 
-        .settings-trigger { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: #000; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; border: none; box-shadow: 0 0 15px rgba(0,242,255,0.4); z-index: 1000; }
-
+        .settings-trigger { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: #000; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; box-shadow: 0 0 15px rgba(0,242,255,0.4); z-index: 1000; }
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 2000; }
         .modal-content { background: #111; padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; border: 1px solid var(--accent); max-height: 85vh; overflow-y: auto; }
         .inp { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
-        .section-label { font-size: 0.75rem; color: var(--accent); font-family: 'Orbitron'; margin: 15px 0 5px; display: block; text-transform: uppercase; }
+        .section-label { font-size: 0.75rem; color: var(--accent); font-family: 'Orbitron'; margin: 15px 0 5px; display: block; }
         .save-btn { width: 100%; padding: 15px; background: var(--accent); border: none; border-radius: 8px; font-family: 'Orbitron'; cursor: pointer; font-weight: bold; }
-        
-        @media (max-width: 600px) { .profile-header { flex-direction: column; text-align: center; } }
     </style>
 </head>
 <body>
@@ -53,12 +51,11 @@
         <div class="profile-header">
             <img src="{{ url_for('static', filename='uploads/' + user.photo) }}" class="avatar" onerror="this.src='https://via.placeholder.com/150'">
             <div>
-                <h1 class="name">{{ user.display_name }}</h1>
-                <p style="color: #999; margin: 5px 0;">{{ user.bio }}</p>
-                <div style="display: flex; gap: 15px; margin-top: 10px;">
-                    {% if user.tg_link %}<a href="{{ user.tg_link }}" target="_blank" style="color:var(--accent); text-decoration:none; font-size:0.9rem; font-weight:bold;">TELEGRAM</a>{% endif %}
-                    {% if user.steam_link %}<a href="{{ user.steam_link }}" target="_blank" style="color:var(--accent); text-decoration:none; font-size:0.9rem; font-weight:bold;">STEAM</a>{% endif %}
-                    {% if user.discord_tag %}<span style="color:#555; font-size:0.9rem;">DS: {{ user.discord_tag }}</span>{% endif %}
+                <h1 style="font-family:'Orbitron'; color:var(--accent); margin:0;">{{ user.display_name }}</h1>
+                <p style="color:#999;">{{ user.bio }}</p>
+                <div style="display:flex; gap:15px;">
+                    {% if user.tg_link %}<a href="{{ user.tg_link }}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:bold;">TG</a>{% endif %}
+                    {% if user.steam_link %}<a href="{{ user.steam_link }}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:bold;">STEAM</a>{% endif %}
                 </div>
             </div>
         </div>
@@ -69,10 +66,14 @@
         </div>
 
         <div id="video-area" class="display-area">
-            {% if user.video %}
-                <video controls><source src="{{ url_for('static', filename='uploads/' + user.video) }}" type="video/mp4"></video>
+            {% if videos %}
+                {% for vid in videos %}
+                    <div class="video-item">
+                        <video controls loop muted><source src="{{ url_for('static', filename='uploads/' + vid) }}" type="video/mp4"></video>
+                    </div>
+                {% endfor %}
             {% else %}
-                <p style="text-align:center; color:#444; font-family:'Orbitron';">ВИДЕО НЕ ЗАГРУЖЕНО</p>
+                <p style="text-align:center; color:#444;">ВИДЕО НЕТ</p>
             {% endif %}
         </div>
 
@@ -84,12 +85,12 @@
                     {% endfor %}
                 </div>
             {% else %}
-                <p style="text-align:center; color:#444; font-family:'Orbitron';">ГАЛЕРЕЯ ПУСТА</p>
+                <p style="text-align:center; color:#444;">ФОТО НЕТ</p>
             {% endif %}
         </div>
 
         <button class="settings-trigger" onclick="openSettings()">⚙</button>
-        <a href="/" style="display:block; text-align:center; margin-top:40px; color:#444; text-decoration:none; font-size:0.8rem; font-family:'Orbitron';">← НАЗАД В ХАБ</a>
+        <a href="/" style="display:block; text-align:center; margin-top:40px; color:#444; text-decoration:none;">← В ХАБ</a>
     {% endif %}
 </div>
 
@@ -100,23 +101,23 @@
         <form action="{{ url_for('edit_profile', page_name=page_id) }}" method="POST" enctype="multipart/form-data">
             <input type="password" name="admin_password" class="inp" placeholder="ПАРОЛЬ (1234)" required>
             
-            <span class="section-label">Информация</span>
-            <textarea name="bio" class="inp" placeholder="О себе...">{{ user.bio }}</textarea>
-            <input type="text" name="tg" class="inp" placeholder="Ссылка на Telegram" value="{{ user.tg_link }}">
-            <input type="text" name="steam" class="inp" placeholder="Ссылка на Steam" value="{{ user.steam_link }}">
+            <span class="section-label">Текст</span>
+            <textarea name="bio" class="inp" style="height:80px;">{{ user.bio }}</textarea>
+            <input type="text" name="tg" class="inp" placeholder="Telegram ссылка" value="{{ user.tg_link }}">
+            <input type="text" name="steam" class="inp" placeholder="Steam ссылка" value="{{ user.steam_link }}">
             <input type="text" name="discord" class="inp" placeholder="Discord Тэг" value="{{ user.discord_tag }}">
 
-            <span class="section-label">Загрузка медиа</span>
-            <label style="font-size:0.7rem; color:#666;">Аватар:</label> <input type="file" name="photo" class="inp">
-            <label style="font-size:0.7rem; color:#666;">Видео (MP4):</label> <input type="file" name="video" class="inp">
-            <label style="font-size:0.7rem; color:#666;">Добавить фото в галерею (можно несколько):</label> <input type="file" name="gallery" class="inp" multiple>
+            <span class="section-label">Медиа (Можно выбрать несколько)</span>
+            <label style="font-size:0.7rem;">Аватар:</label> <input type="file" name="photo" class="inp">
+            <label style="font-size:0.7rem;">Добавить Видео (MP4):</label> <input type="file" name="video" class="inp" multiple>
+            <label style="font-size:0.7rem;">Добавить Фото:</label> <input type="file" name="gallery" class="inp" multiple>
 
-            <span class="section-label" style="color:#ff0055;">Удаление</span>
-            <label style="font-size:0.85rem;"><input type="checkbox" name="clear_video"> Удалить видео</label><br>
-            <label style="font-size:0.85rem;"><input type="checkbox" name="clear_gallery"> Очистить всю галерею</label>
+            <span class="section-label" style="color:#f05;">Очистка</span>
+            <label><input type="checkbox" name="clear_video"> Удалить все видео</label><br>
+            <label><input type="checkbox" name="clear_gallery"> Удалить все фото</label>
 
-            <button type="submit" class="save-btn" style="margin-top:20px;">СОХРАНИТЬ ИЗМЕНЕНИЯ</button>
-            <button type="button" class="inp" onclick="closeSettings()" style="margin-top:10px; border:none; background:#222;">Отмена</button>
+            <button type="submit" class="save-btn" style="margin-top:20px;">СОХРАНИТЬ</button>
+            <button type="button" class="inp" onclick="closeSettings()" style="background:#222; border:none; margin-top:10px;">Отмена</button>
         </form>
     </div>
 </div>
@@ -129,11 +130,7 @@
         document.getElementById(type + '-area').style.display = 'block';
     }
     function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
-    function closeModal() { document.getElementById('settingsModal').style.display = 'none'; }
-    window.onclick = function(event) {
-        let modal = document.getElementById('settingsModal');
-        if (event.target == modal) { modal.style.display = "none"; }
-    }
+    function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
 </script>
 </body>
 </html>
