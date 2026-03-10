@@ -10,36 +10,39 @@
         body { margin: 0; background: var(--bg-dark); color: #e0e0e0; font-family: 'Inter', sans-serif; min-height: 100vh; }
         .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
-        /* ИНТЕРАКТИВНЫЕ ЗОНЫ */
-        .media-box { position: relative; cursor: pointer; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
-        .media-box:hover { border-color: var(--accent); }
-        .media-box:hover .edit-overlay { opacity: 1; }
-        .edit-overlay { 
-            position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.75); 
-            display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; 
-            font-family: 'Orbitron'; font-size: 0.7rem; color: var(--accent); letter-spacing: 2px;
-        }
-
         .layout { display: flex; gap: 40px; }
         .side { flex: 0 0 300px; }
         .main-content { flex: 1; background: var(--panel); padding: 35px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.05); }
 
-        .video-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; display: flex; align-items: center; justify-content: center; }
+        .avatar-box { width: 100%; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .avatar-box img { width: 100%; display: block; }
+
+        .video-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; display: flex; align-items: center; justify-content: center; border-radius: 15px; overflow: hidden; margin-top: 20px; }
         video { width: 100%; height: 100%; object-fit: contain; }
 
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 20px; }
         .gallery-item { aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* КНОПКИ УПРАВЛЕНИЯ */
+        .admin-controls { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .btn-ctrl { 
+            background: rgba(255,255,255,0.05); border: 1px solid #222; color: var(--accent); 
+            padding: 12px; border-radius: 10px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.7rem; 
+            text-align: center; transition: 0.3s;
+        }
+        .btn-ctrl:hover { background: var(--accent); color: #000; }
+        .btn-danger { color: var(--cyber-pink); border-color: var(--cyber-pink); }
+        .btn-danger:hover { background: var(--cyber-pink); color: #fff; }
+
         .modal { display: none; position: fixed; z-index: 1000; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .modal-content { background: #0d0d12; padding: 30px; border-radius: 24px; border: 1px solid var(--accent); width: 90%; max-width: 400px; box-shadow: 0 0 30px rgba(0,242,255,0.2); }
+        .modal-content { background: #0d0d12; padding: 30px; border-radius: 24px; border: 1px solid var(--accent); width: 90%; max-width: 400px; }
         
         .inp { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 12px; box-sizing: border-box; font-family: inherit; }
         .btn-save { width: 100%; padding: 15px; background: var(--cyber-pink); border: none; color: #fff; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; font-weight: 700; }
-        
+
         .social-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 15px; }
-        .soc-btn { padding: 10px; background: rgba(255,255,255,0.03); text-align: center; text-decoration: none; color: #fff; font-size: 0.6rem; border-radius: 8px; font-family: 'Orbitron'; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .soc-btn:hover { background: var(--accent); color: #000; }
+        .soc-btn { padding: 10px; background: rgba(255,255,255,0.03); text-align: center; text-decoration: none; color: #fff; font-size: 0.6rem; border-radius: 8px; font-family: 'Orbitron'; border: 1px solid rgba(255,255,255,0.05); }
 
         @media (max-width: 900px) { .layout { flex-direction: column; } .side { width: 100%; } }
     </style>
@@ -47,49 +50,54 @@
 <body>
 <div class="container">
     {% if is_home %}
-        <h1 style="text-align: center; font-family: 'Orbitron'; font-size: 3rem; letter-spacing: 15px; margin-bottom: 50px; text-shadow: 0 0 20px rgba(0,242,255,0.5);">DRAGON</h1>
+        <h1 style="text-align: center; font-family: 'Orbitron'; font-size: 3rem; letter-spacing: 15px; margin-bottom: 50px;">DRAGON</h1>
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
             {% for display_name, username in buttons %}
-                <a href="{{ url_for('show_page', page_name=username) }}" style="padding: 50px 20px; background: var(--panel); color: #fff; text-decoration: none; text-align: center; border-radius: 24px; font-family: 'Orbitron'; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;">{{ display_name }}</a>
+                <a href="{{ url_for('show_page', page_name=username) }}" style="padding: 50px 20px; background: var(--panel); color: #fff; text-decoration: none; text-align: center; border-radius: 24px; font-family: 'Orbitron'; border: 1px solid rgba(255,255,255,0.05);">{{ display_name }}</a>
             {% endfor %}
         </div>
     {% else %}
         <div class="layout">
             <div class="side">
-                <div class="media-box" onclick="openModal('photo')">
-                    <img src="{{ url_for('static', filename='uploads/' + user.photo) }}" style="width:100%; display:block;" onerror="this.src='https://via.placeholder.com/400?text=UPLOAD+PHOTO'">
-                    <div class="edit-overlay">CHANGE_AVATAR</div>
+                <div class="avatar-box">
+                    <img src="{{ url_for('static', filename='uploads/' + user.photo) }}" onerror="this.src='https://via.placeholder.com/400?text=NO+IMAGE'">
                 </div>
+                
+                <div class="admin-controls">
+                    <div class="btn-ctrl" onclick="openModal('photo')">CHANGE AVATAR</div>
+                    <div class="btn-ctrl" onclick="openModal('info')">EDIT INFO & LINKS</div>
+                    <div class="btn-ctrl" onclick="openModal('video')">UPLOAD VIDEO</div>
+                    <div class="btn-ctrl" onclick="openModal('gallery')">ADD TO GALLERY</div>
+                    <div class="btn-ctrl btn-danger" onclick="openModal('delete')">DELETE OPTIONS</div>
+                </div>
+
                 <div class="social-grid">
                     {% if user.tg_link %}<a href="{{ user.tg_link }}" target="_blank" class="soc-btn">TG</a>{% endif %}
                     {% if user.steam_link %}<a href="{{ user.steam_link }}" target="_blank" class="soc-btn">STEAM</a>{% endif %}
                     {% if user.discord_tag %}<div class="soc-btn" onclick="alert('Discord: {{ user.discord_tag }}')">DS</div>{% endif %}
                 </div>
-                <button onclick="openModal('info')" style="width: 100%; margin-top: 15px; background: none; border: 1px solid #222; color: #444; padding: 12px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.6rem; border-radius: 8px;">EDIT_PROFILE_DATA</button>
-                <a href="/" style="display:block; margin-top:30px; text-align:center; color:#333; text-decoration:none; font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 2px;">← EXIT_TO_HUB</a>
-            </div>
-            <div class="main-content">
-                <h1 style="font-family: 'Orbitron'; color: var(--accent); margin: 0 0 15px 0; font-size: 2.5rem;">{{ user.display_name }}</h1>
-                <p style="white-space: pre-wrap; color: #999; line-height: 1.8; font-size: 1.05rem; border-left: 2px solid var(--accent); padding-left: 20px;">{{ user.bio }}</p>
                 
-                <div class="media-box" onclick="openModal('video')" style="margin-top: 30px;">
-                    <div class="video-wrapper">
-                        {% if user.video %}
-                            <video controls loop muted autoplay><source src="{{ url_for('static', filename='uploads/' + user.video) }}" type="video/mp4"></video>
-                        {% else %}
-                            <div style="color: #222; font-family: 'Orbitron'; font-size: 0.8rem;">[ NO_VIDEO_DATA ]</div>
-                        {% endif %}
-                    </div>
-                    <div class="edit-overlay">UPDATE_VIDEO_FEED</div>
-                </div>
+                <a href="/" style="display:block; margin-top:30px; text-align:center; color:#333; text-decoration:none; font-family: 'Orbitron'; font-size: 0.7rem;">← BACK TO HUB</a>
+            </div>
 
-                <h3 style="font-family: 'Orbitron'; margin-top: 40px; font-size: 0.8rem; color: #444; letter-spacing: 3px;">DATABASE_GALLERY</h3>
+            <div class="main-content">
+                <h1 style="font-family: 'Orbitron'; color: var(--accent); margin: 0 0 15px 0;">{{ user.display_name }}</h1>
+                <p style="white-space: pre-wrap; color: #999; line-height: 1.8;">{{ user.bio }}</p>
+                
+                {% if user.video %}
+                <div class="video-wrapper">
+                    <video controls loop muted autoplay><source src="{{ url_for('static', filename='uploads/' + user.video) }}" type="video/mp4"></video>
+                </div>
+                {% endif %}
+
+                {% if gallery %}
+                <h3 style="font-family: 'Orbitron'; margin-top: 40px; font-size: 0.8rem; color: #444;">DATABASE_GALLERY</h3>
                 <div class="gallery-grid">
                     {% for img in gallery %}
                         <div class="gallery-item"><img src="{{ url_for('static', filename='uploads/' + img) }}"></div>
                     {% endfor %}
-                    <div class="gallery-item" onclick="openModal('gallery')" style="background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px dashed #222; color: #222; font-size: 2rem;">+</div>
                 </div>
+                {% endif %}
             </div>
         </div>
     {% endif %}
@@ -98,28 +106,33 @@
 {% if not is_home %}
 <div id="adminModal" class="modal">
     <div class="modal-content">
-        <h2 id="modalTitle" style="font-family: 'Orbitron'; font-size: 0.9rem; color: var(--accent); margin-top: 0; letter-spacing: 2px;">MOD_DATA</h2>
+        <h2 id="modalTitle" style="font-family: 'Orbitron'; font-size: 0.9rem; color: var(--accent); margin-top: 0;">MOD_DATA</h2>
         <form action="{{ url_for('edit_profile', page_name=page_id) }}" method="POST" enctype="multipart/form-data">
-            <input type="password" name="admin_password" class="inp" placeholder="ACCESS_CODE (1234)" required>
+            <input type="password" name="admin_password" class="inp" placeholder="ACCESS CODE" required>
             
-            <div id="photoFields" style="display:none;">
-                <input type="file" name="photo" class="inp">
-            </div>
-            <div id="videoFields" style="display:none;">
-                <input type="file" name="video" class="inp">
-            </div>
-            <div id="galleryFields" style="display:none;">
-                <input type="file" name="gallery_photos" class="inp" multiple>
-            </div>
+            <div id="photoFields" style="display:none;"><input type="file" name="photo" class="inp"></div>
+            <div id="videoFields" style="display:none;"><input type="file" name="video" class="inp"></div>
+            <div id="galleryFields" style="display:none;"><input type="file" name="gallery_photos" class="inp" multiple></div>
+            
             <div id="infoFields" style="display:none;">
                 <textarea name="description" class="inp" style="height: 100px;">{{ user.bio }}</textarea>
-                <input type="text" name="tg_link" class="inp" placeholder="Telegram Link" value="{{ user.tg_link }}">
-                <input type="text" name="steam_link" class="inp" placeholder="Steam Link" value="{{ user.steam_link }}">
-                <input type="text" name="discord_tag" class="inp" placeholder="Discord Tag" value="{{ user.discord_tag }}">
+                <input type="text" name="tg_link" class="inp" placeholder="Telegram" value="{{ user.tg_link }}">
+                <input type="text" name="steam_link" class="inp" placeholder="Steam" value="{{ user.steam_link }}">
+                <input type="text" name="discord_tag" class="inp" placeholder="Discord" value="{{ user.discord_tag }}">
             </div>
 
-            <button type="submit" class="btn-save">EXECUTE_UPDATE</button>
-            <button type="button" onclick="closeModal()" style="background:none; border:none; color:#444; width:100%; margin-top:15px; cursor:pointer; font-family: 'Orbitron'; font-size: 0.6rem;">CANCEL_REQUEST</button>
+            <div id="deleteFields" style="display:none;">
+                <p style="font-size: 0.7rem; color: #666;">Check to delete:</p>
+                <label style="display:block; font-size: 0.8rem; margin-bottom: 10px;">
+                    <input type="checkbox" name="delete_video" value="1"> Remove Video
+                </label>
+                <label style="display:block; font-size: 0.8rem; margin-bottom: 10px;">
+                    <input type="checkbox" name="clear_gallery" value="1"> Clear All Gallery
+                </label>
+            </div>
+
+            <button type="submit" class="btn-save">CONFIRM</button>
+            <button type="button" onclick="closeModal()" style="background:none; border:none; color:#444; width:100%; margin-top:15px; cursor:pointer; font-family: 'Orbitron'; font-size: 0.6rem;">CANCEL</button>
         </form>
     </div>
 </div>
@@ -127,14 +140,11 @@
 <script>
     function openModal(type) {
         document.getElementById('adminModal').style.display = 'flex';
-        document.getElementById('photoFields').style.display = 'none';
-        document.getElementById('videoFields').style.display = 'none';
-        document.getElementById('galleryFields').style.display = 'none';
-        document.getElementById('infoFields').style.display = 'none';
-        if(type === 'photo') { document.getElementById('photoFields').style.display = 'block'; document.getElementById('modalTitle').innerText = 'AVATAR_UPDATE'; }
-        if(type === 'video') { document.getElementById('videoFields').style.display = 'block'; document.getElementById('modalTitle').innerText = 'VIDEO_UPDATE'; }
-        if(type === 'gallery') { document.getElementById('galleryFields').style.display = 'block'; document.getElementById('modalTitle').innerText = 'GALLERY_ADD'; }
-        if(type === 'info') { document.getElementById('infoFields').style.display = 'block'; document.getElementById('modalTitle').innerText = 'INFO_UPDATE'; }
+        const fields = ['photoFields', 'videoFields', 'galleryFields', 'infoFields', 'deleteFields'];
+        fields.forEach(id => document.getElementById(id).style.display = 'none');
+        
+        document.getElementById(type + 'Fields').style.display = 'block';
+        document.getElementById('modalTitle').innerText = type.toUpperCase() + '_MANAGEMENT';
     }
     function closeModal() { document.getElementById('adminModal').style.display = 'none'; }
 </script>

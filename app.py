@@ -4,9 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = "dragon_final_ultra_fix"
+app.secret_key = "dragon_pro_delete_fix"
 
-# Настройка путей
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'drakon.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -32,19 +31,6 @@ class UserProfile(db.Model):
 
 with app.app_context():
     db.create_all()
-    initial_squad = {
-        "cat": ("Кот", "Архитектор хаоса"),
-        "ruslan": ("Руслан", "Мастер тактических решений"),
-        "andrey": ("Андрей", "Легенда состава"),
-        "timokha": ("Тимоха", "Всегда в деле"),
-        "lesha": ("Лёша", "Низкий не удаленький"),
-        "ibragim": ("Ибрагим", "Молодой талант")
-    }
-    for nick, (name, bio) in initial_squad.items():
-        if not UserProfile.query.filter_by(username=nick).first():
-            new_p = UserProfile(username=nick, display_name=name, bio=bio)
-            db.session.add(new_p)
-    db.session.commit()
 
 @app.route('/')
 def home():
@@ -65,12 +51,22 @@ def edit_profile(page_name):
     
     user = UserProfile.query.filter_by(username=page_name).first_or_404()
     
+    # Удаление видео
+    if request.form.get('delete_video') == '1':
+        user.video = ""
+    
+    # Очистка галереи
+    if request.form.get('clear_gallery') == '1':
+        user.gallery = ""
+
+    # Обновление текста
     if 'description' in request.form:
         user.bio = request.form.get('description')
         user.tg_link = request.form.get('tg_link')
         user.steam_link = request.form.get('steam_link')
         user.discord_tag = request.form.get('discord_tag')
     
+    # Загрузка новых файлов
     photo_file = request.files.get('photo')
     if photo_file and photo_file.filename != '':
         p_filename = secure_filename(f"avatar_{page_name}_{photo_file.filename}")
